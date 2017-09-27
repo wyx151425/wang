@@ -1,0 +1,209 @@
+package com.rumofuture.wzq.service.impl;
+
+import com.rumofuture.wzq.model.dao.MemberDao;
+import com.rumofuture.wzq.model.dao.MemberSchema;
+import com.rumofuture.wzq.model.domain.Member;
+import com.rumofuture.wzq.service.MemberService;
+import com.rumofuture.wzq.util.ConnectionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by WangZhenqi on 2017/09/27.
+ */
+
+@Service("memberService")
+public class MemberServiceImpl implements MemberService {
+
+    private final MemberDao memberDao;
+
+    @Autowired
+    public MemberServiceImpl(MemberDao memberDao) {
+        this.memberDao = memberDao;
+    }
+
+    @Override
+    public Member saveMember(Member member) {
+        Connection connection = null;
+        try {
+            // 通过连接工厂类获得一个数据库连接
+            connection = ConnectionFactory.getInstance().getConnection();
+            connection.setAutoCommit(false);
+            // 根据传入的参数查询数据库中是否有对应的用户信息
+            int id = memberDao.insertMember(connection, member);
+            connection.commit();
+            if (0 != id) {
+                member.setId(id);
+                return member;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();    // 异常处理
+            try {
+                if (null != connection) {
+                    connection.rollback();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } finally {
+            try {
+                if (null != connection) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public int deleteMember(Integer id) {
+        Connection connection = null;
+        try {
+            // 通过连接工厂类获得一个数据库连接
+            connection = ConnectionFactory.getInstance().getConnection();
+            connection.setAutoCommit(false);
+            // 根据传入的参数查询数据库中是否有对应的用户信息
+            int row = memberDao.deleteMember(connection, id);
+            connection.commit();
+            return row;
+        } catch (Exception e) {
+            e.printStackTrace();  // 异常处理
+            try {
+                if (null != connection) {
+                    connection.rollback();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } finally {
+            try {
+                if (null != connection) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return 0;
+    }
+
+    @Override
+    public Member updateMemberInfo(Member member) {
+        Connection connection = null;
+        try {
+            // 通过连接工厂类获得一个数据库连接
+            connection = ConnectionFactory.getInstance().getConnection();
+            connection.setAutoCommit(false);
+            // 根据传入的参数查询数据库中是否有对应的用户信息
+            int row = memberDao.updateMemberInfo(connection, member);
+            connection.commit();
+            if (1 == row) {
+                return member;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();  // 异常处理
+            try {
+                if (null != connection) {
+                    connection.rollback();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } finally {
+            try {
+                if (null != connection) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public Member getMemberByMobilePhoneNumber(String mobilePhoneNumber) {
+        Connection connection = null;
+        try {
+            // 通过连接工厂类获得一个数据库连接
+            connection = ConnectionFactory.getInstance().getConnection();
+            connection.setAutoCommit(false);  // 关闭自动提交
+            // 根据传入的参数查询数据库中是否有对应的用户信息
+            ResultSet resultSet = memberDao.selectMemberByMobilePhoneNumber(connection, mobilePhoneNumber);
+            Member member = new Member();
+            if (resultSet.next()) {
+                member.setId(resultSet.getInt(MemberSchema.Table.Cols.ID));
+                member.setName(resultSet.getString(MemberSchema.Table.Cols.NAME));
+                member.setMobilePhoneNumber(resultSet.getString(MemberSchema.Table.Cols.MOBILE_PHONE_NUMBER));
+                member.setLeader(null);
+                member.setWorkExperience(resultSet.getInt(MemberSchema.Table.Cols.WORK_EXPERIENCE));
+                member.setAnnualSalary(resultSet.getInt(MemberSchema.Table.Cols.ANNUAL_SALARY));
+                member.setGraduatedFrom(resultSet.getString(MemberSchema.Table.Cols.GRADUATED_FROM));
+                member.setEducation(resultSet.getString(MemberSchema.Table.Cols.EDUCATION));
+                member.setTeamPosition(resultSet.getString(MemberSchema.Table.Cols.TEAM_POSITION));
+            }
+            return member;
+        } catch (Exception e) {
+            e.printStackTrace();  // 异常处理
+        } finally {
+            try {
+                if (null != connection) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<Member> getMemberListByLeader(Integer id) {
+        Connection connection = null;
+        try {
+            // 通过连接工厂类获得一个数据库连接
+            connection = ConnectionFactory.getInstance().getConnection();
+            connection.setAutoCommit(false);  // 关闭自动提交
+            // 根据传入的参数查询数据库中是否有对应的用户信息
+            ResultSet resultSet = memberDao.selectMemberListByLeader(connection, id);
+            List<Member> memberList = new ArrayList<>();
+            while (resultSet.next()) {
+                Member member = new Member();
+                member.setId(resultSet.getInt(MemberSchema.Table.Cols.ID));
+                member.setName(resultSet.getString(MemberSchema.Table.Cols.NAME));
+                member.setMobilePhoneNumber(resultSet.getString(MemberSchema.Table.Cols.MOBILE_PHONE_NUMBER));
+                member.setLeader(null);
+                member.setWorkExperience(resultSet.getInt(MemberSchema.Table.Cols.WORK_EXPERIENCE));
+                member.setAnnualSalary(resultSet.getInt(MemberSchema.Table.Cols.ANNUAL_SALARY));
+                member.setGraduatedFrom(resultSet.getString(MemberSchema.Table.Cols.GRADUATED_FROM));
+                member.setEducation(resultSet.getString(MemberSchema.Table.Cols.EDUCATION));
+                member.setTeamPosition(resultSet.getString(MemberSchema.Table.Cols.TEAM_POSITION));
+                memberList.add(member);
+            }
+            return memberList;
+        } catch (Exception e) {
+            e.printStackTrace();  // 异常处理
+        } finally {
+            try {
+                if (null != connection) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
+}
