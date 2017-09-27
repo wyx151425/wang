@@ -51,6 +51,9 @@
             $("#user-name").text(user.name);
             $("#user-work-experience").text(user.workExperience);
             $("#user-annual-salary").text(user.annualSalary);
+            $("#user-graduated-from").text(user.graduatedFrom);
+            $("#user-education").text(user.education);
+            $("#user-team-position").text(user.teamPosition);
             $.get("${pageContext.request.contextPath}/member/list?id=" + user.id, function (data) {
                 alert(data);
             });
@@ -75,7 +78,7 @@
             </button>
         </a>
         <div class="user-msg">
-            <i class="hidden-xs"></i>
+            <i id="user-name" class="hidden-xs"></i>
             <span class="glyphicon glyphicon-off hidden-xs"></span>
         </div>
     </div>
@@ -85,7 +88,7 @@
             <tr>
                 <td class="hidden">
                     <h5>
-                        <strong id="user-name"></strong>
+                        <strong></strong>
                         <span></span>
                     </h5>
                     <span></span>
