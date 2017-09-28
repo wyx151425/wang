@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Created by WangZhenqi on 2017/09/27.
@@ -48,13 +49,13 @@ public class MainController {
         return "teamManage";
     }
 
-    @GetMapping(value = "memberAdd")
+    @GetMapping(value = "/memberAdd")
     public String memberAddPage() {
         return "memberAdd";
     }
 
-    @GetMapping(value = "memberInfo")
-    public String memberInfoPage() {
+    @GetMapping(value = "/memberInfo")
+    public String memberInfoPage(@RequestParam("id") Integer id) {
         return "memberInfo";
     }
 }

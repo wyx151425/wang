@@ -27,7 +27,7 @@ public class UserDaoImpl implements UserDao {
                 + UserSchema.Table.Cols.PASSWORD + ") "
                 + "VALUES(?, ?, ?)";
 
-        PreparedStatement statement = conn.prepareCall(insertSql);
+        PreparedStatement statement = conn.prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
 
         statement.setString(1, user.getName());
         statement.setString(2, user.getMobilePhoneNumber());

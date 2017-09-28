@@ -1,6 +1,4 @@
-<%@ page import="com.rumofuture.wzq.model.domain.User" %>
-<%@ page import="org.json.JSONObject" %>
-<%@ page import="org.json.JSONArray" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: WangZhenqi
   Date: 2016/12/30
@@ -10,104 +8,115 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta charset="utf-8">
-    <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/favicon.png"
-          type="image/x-icon"/>
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/favicon.png" type="image/x-icon"/>
     <title>成员信息</title>
-    <link rel="stylesheet" type="text/css"
-          href="${pageContext.request.contextPath}/css/global.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="${pageContext.request.contextPath}/css/bootstrap-slider.min.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="${pageContext.request.contextPath}/css/responsive-nav.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="${pageContext.request.contextPath}/css/base.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="${pageContext.request.contextPath}/css/datalist.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="${pageContext.request.contextPath}/css/pay.css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/global.css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap-slider.min.css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/responsive-nav.css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/datalist.css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/pay.css"/>
 
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquerysession.js"></script>
     <script>
-        var xmlHttpRequest;
-        function createXMLHttpRequest() {
-            if (window.ActiveXObject) {
-                xmlHttpRequest = new ActiveXObject("Microsoft.XMLHTTP");
-            } else {
-                xmlHttpRequest = new XMLHttpRequest();
-            }
-        }
+        var url = window.location;
 
-        function memberInfoModify() {
-            if (document.memberInfoForm.name.value == "") {
-                return false;
-            }
-
-            if (document.getElementById("create_time").value == "now") {
-                alert("新添加数据，暂不支持修改");
-                return false;
-            }
-
-            createXMLHttpRequest();
-            xmlHttpRequest.onreadystatechange = memberInfoModifyResult;
-            xmlHttpRequest.open("GET", "${pageContext.request.contextPath}/MemberInfoModifyServlet?"
-                    + "member_id=" + document.getElementById("member_id").value + "&"
-                    + "name=" + document.getElementById("name").value + "&"
-                    + "mobile_phone=" + document.getElementById("mobile_phone").value + "&"
-                    + "work_exprience=" + document.getElementById("work_exprience").value + "&"
-                    + "annual_salary=" + document.getElementById("annual_salary").value + "&"
-                    + "graduated_from=" + document.getElementById("graduated_from").value + "&"
-                    + "education=" + document.getElementById("education").value + "&"
-                    + "team_position=" + document.getElementById("team_position").value);
-            xmlHttpRequest.send();
-        }
-
-        function memberInfoModifyResult() {
-            if (xmlHttpRequest.readyState == 4) {
-                if (xmlHttpRequest.status == 200) {
-                    var responseResult = xmlHttpRequest.responseText;
-                    if (1 == responseResult) {
-                        document.getElementById("msg_success_div").style = "display: block;";
-                        document.getElementById("msg_success").innerHTML = "修改成功";
-                    } else {
-                        document.getElementById("msg_error_div").style = "display: block;";
-                        document.getElementById("msg_error").innerHTML = "修改失败";
+        function getUrlParam(url, name) {
+            var pattern = new RegExp("[?&]" + name + "\=([^&]+)", "g");
+            var matcher = pattern.exec(url);
+            var items = null;
+            if (null !== matcher) {
+                try {
+                    items = decodeURIComponent(decodeURIComponent(matcher[1]));
+                } catch (e) {
+                    try {
+                        items = decodeURIComponent(matcher[1]);
+                    } catch (e) {
+                        items = matcher[1];
                     }
                 }
             }
-        }
-    </script>
-    <script>
-        function positiveClick() {
-            document.getElementById("msg_success_div").style = "display: none;";
+            return items;
         }
 
-        function nagivateClick() {
-            document.getElementById("msg_error_div").style = "display: none;";
-        }
+        $(document).ready(function () {
+            var id = getUrlParam(url, "id");
+            $.ajax("${pageContext.request.contextPath}/member/get?id=" + id,
+                {
+                    dataType: "json",
+                    type: "get",
+                    contentType: "application/json",
+                    success: function (data) {
+                        if (1 === data.status) {
+                            var member = data.member;
+                            $("#id").val(member.id);
+                            $("#name").val(member.name);
+                            $("#mobile-phone-number").val(member.mobilePhoneNumber);
+                            $("#work-experience").val(member.workExperience);
+                            $("#annual-salary").val(member.annualSalary);
+                            $("#graduated-from").val(member.graduatedFrom);
+                            $("#education").val(member.education);
+                            $("#team-position").val(member.teamPosition);
+                            $("#create-time").val(member.createTime);
+                        }
+                    }
+                }
+            );
+
+            $("#submit-button").click(function () {
+                $.ajax("${pageContext.request.contextPath}/member/info/update",
+                    {
+                        dataType: "json",
+                        type: "post",
+                        contentType: "application/json",
+                        data: JSON.stringify(
+                            {
+                                id: $("#id").val(),
+                                name: $("#name").val(),
+                                workExperience: $("#work-experience").val(),
+                                annualSalary: $("#annual-salary").val(),
+                                graduatedFrom: $("#graduated-from").val(),
+                                education: $("#education").val(),
+                                teamPosition: $("#team-position").val()
+                            }
+                        ),
+                        async: true,
+                        success: function (data) {
+                            if (1 === data) {
+                                $("#msg-success-div").css("display", "block");
+                                $("#msg-success").text(data.message);
+                            } else {
+                                $("#msg-error-div").css("display", "block");
+                                $("#msg-error").text(data.message);
+                            }
+                        }
+                    }
+                );
+            });
+
+            $("#positive-button").click(function () {
+                $("#msg-success-div").css("display", "none");
+                $("#msg-success").text("");
+            });
+
+            $("#navigate-button").click(function () {
+                $("#msg-error-div").css("display", "none");
+                $("#msg-error").text("");
+            });
+        });
     </script>
 </head>
 <body>
-<%!
-    private JSONObject currentMember = null;
-%>
-<%
-    JSONArray jsonArray = (JSONArray) request.getSession().getAttribute("currentMembers");
-    for (int index = 0; index < jsonArray.length(); index++) {
-        JSONObject jsonObject = (JSONObject) jsonArray.get(index);
-        if (jsonObject.getLong("id") == Long.parseLong(request.getParameter("id"))) {
-            currentMember = jsonObject;
-            break;
-        }
-    }
-%>
 
 <div id="nav" class="sidenav">
     <ul>
-        <li><a href="index.jsp">首页</a></li>
-        <li><a href="team.jsp">团队</a></li>
-        <li class="on"><a href="userInfo.jsp">个人</a></li>
+        <li><a href="${pageContext.request.contextPath}/mvc/index">首页</a></li>
+        <li><a href="${pageContext.request.contextPath}/mvc/team">团队</a></li>
+        <li class="on"><a href="${pageContext.request.contextPath}/mvc/userInfo">个人</a></li>
     </ul>
 </div>
 
@@ -118,9 +127,9 @@
                 <p class="biaoti pd1"><b>个人管理</b></p>
             </div>
             <ul class="subnav">
-                <li><a href="userInfo.jsp">个人信息</a></li>
-                <li class="on"><a href="teamManage.jsp">团队管理</a></li>
-                <li><a href="passwordUpdate.jsp">密码修改</a></li>
+                <li><a href="${pageContext.request.contextPath}/mvc/userInfo">个人信息</a></li>
+                <li class="on"><a href="${pageContext.request.contextPath}/mvc/teamManage">团队管理</a></li>
+                <li><a href="${pageContext.request.contextPath}/mvc/passwordUpdate">密码修改</a></li>
             </ul>
         </div>
     </div>
@@ -130,9 +139,6 @@
 
     <div class="lists box-sh order-table">
         <h5><b>请务必完善成员信息</b></h5>
-        <ul class="file-dep">
-            <li></li>
-        </ul>
     </div>
 
     <div class="mt order-table user-content">
@@ -143,68 +149,60 @@
             <div class="form-group hidden">
                 <label class="col-sm-2 control-label nopd  col-lg-1 mt8">成员ID</label>
                 <div class="col-sm-10 col-lg-5">
-                    <input type="text" id="member_id" name="member_id"
-                           class="form-control" value="<%=currentMember.get("id")%>" disabled>
+                    <input type="text" id="id" class="form-control" disabled>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label nopd  col-lg-1 mt8">真实姓名</label>
                 <div class="col-sm-10 col-lg-5">
-                    <input type="text" class="form-control" name="name"
-                           id="name" value="<%=currentMember.get("name")%>" placeholder="必填">
+                    <input type="text" class="form-control" id="name" placeholder="必填">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label nopd  col-lg-1 mt8">手机号码</label>
                 <div class="col-sm-10 col-lg-5">
-                    <input type="text" class="form-control" name="mobile_phone"
-                           id="mobile_phone" value="<%=currentMember.get("mobile_phone")%>" placeholder="必填">
+                    <input id="mobile-phone-number" type="text" class="form-control" disabled>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label nopd  col-lg-1 mt8">经验(/年)</label>
                 <div class="col-sm-10 col-lg-5">
-                    <input type="text" class="form-control" name="work_exprience"
-                           id="work_exprience" value="<%=currentMember.get("work_exprience")%>" placeholder="不大于2位">
+                    <input type="text" class="form-control" id="work-experience" placeholder="不大于2位">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label nopd  col-lg-1 mt8">年薪(/万)</label>
                 <div class="col-sm-10 col-lg-5">
-                    <input type="text" class="form-control" name="annual_salary"
-                           id="annual_salary" value="<%=currentMember.get("annual_salary")%>" placeholder="不大于6位">
+                    <input type="text" class="form-control" id="annual-salary" placeholder="不大于6位">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label nopd  col-lg-1 mt8">毕业院校</label>
                 <div class="col-sm-10 col-lg-5">
-                    <input type="text" class="form-control" name="graduated_from"
-                           id="graduated_from" value="<%=currentMember.get("graduated_from")%>" placeholder="选填">
+                    <input type="text" class="form-control" id="graduated-from" placeholder="选填">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label nopd  col-lg-1 mt8">最高学历</label>
                 <div class="col-sm-10 col-lg-5">
-                    <input type="text" class="form-control" name="education"
-                           id="education" value="<%=currentMember.get("education")%>" placeholder="选填">
+                    <input type="text" class="form-control" id="education" placeholder="选填">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label nopd  col-lg-1 mt8">团队职务</label>
                 <div class="col-sm-10 col-lg-5">
-                    <input type="text" class="form-control" name="team_position"
-                           id="team_position" value="<%=currentMember.get("team_position")%>" placeholder="选填">
+                    <input type="text" class="form-control" id="team-position" placeholder="选填">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label nopd  col-lg-1 mt8">创建时间</label>
                 <div class="col-sm-10 col-lg-5">
-                    <input id="create_time" type="text" class="form-control" value="<%=currentMember.get("create_time")%>" disabled>
+                    <input id="create-time" type="text" class="form-control" disabled>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-lg-offset-1 col-sm-10 col-lg-5">
-                    <button type="submit" class="btn bg-blue save-btn" onclick="memberInfoModify()">保存</button>
+                    <button id="submit-button" type="button" class="btn bg-blue save-btn">保存</button>
                 </div>
             </div>
         </form>
@@ -222,14 +220,16 @@
     </div>
 </div>
 
-<div id="msg_success_div" class="alert alert-success alert-dismissable" style="display: none;">
-    <button id="positive_button" type="button" class="close" aria-hidden="true" onclick="positiveClick()">&times;</button>
-    <div id="msg_success"></div>
+<div id="msg-success-div" class="alert alert-success alert-dismissable" style="display: none;">
+    <button id="positive-button" type="button" class="close" aria-hidden="true">&times;
+    </button>
+    <div id="msg-success"></div>
 </div>
 
-<div id="msg_error_div" class="alert alert-danger alert-dismissable" style="display: none;">
-    <button id="nagivate_button" type="button" class="close" aria-hidden="true" onclick="nagivateClick()">&times;</button>
-    <div id="msg_error"></div>
+<div id="msg-error-div" class="alert alert-danger alert-dismissable" style="display: none;">
+    <button id="navigate-button" type="button" class="close" aria-hidden="true">&times;
+    </button>
+    <div id="msg-error"></div>
 </div>
 </body>
 </html>

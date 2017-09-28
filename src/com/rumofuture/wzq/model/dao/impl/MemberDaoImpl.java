@@ -2,7 +2,6 @@ package com.rumofuture.wzq.model.dao.impl;
 
 import com.rumofuture.wzq.model.dao.MemberDao;
 import com.rumofuture.wzq.model.dao.MemberSchema;
-import com.rumofuture.wzq.model.dao.UserSchema;
 import com.rumofuture.wzq.model.domain.Member;
 import org.springframework.stereotype.Repository;
 
@@ -32,7 +31,7 @@ public class MemberDaoImpl implements MemberDao {
                 + MemberSchema.Table.Cols.TEAM_POSITION + ") "
                 + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
         // 预执行SQL语句
-        PreparedStatement statement = connection.prepareStatement(insertSql);
+        PreparedStatement statement = connection.prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
         // 设置预编译的参数
         statement.setString(1, member.getName());
         statement.setString(2, member.getMobilePhoneNumber());
@@ -71,7 +70,6 @@ public class MemberDaoImpl implements MemberDao {
         // 编辑 更新SQL语句
         String updateSql = "UPDATE " + MemberSchema.Table.NAME + " SET "
                 + MemberSchema.Table.Cols.NAME + " = ?, "
-                + MemberSchema.Table.Cols.MOBILE_PHONE_NUMBER + " = ?,"
                 + MemberSchema.Table.Cols.WORK_EXPERIENCE + " = ?, "
                 + MemberSchema.Table.Cols.ANNUAL_SALARY + " = ?, "
                 + MemberSchema.Table.Cols.GRADUATED_FROM + " = ?, "
@@ -82,15 +80,27 @@ public class MemberDaoImpl implements MemberDao {
         PreparedStatement statement = connection.prepareStatement(updateSql);
         // 设置预编译的参数
         statement.setString(1, member.getName());
-        statement.setString(2, member.getMobilePhoneNumber());
-        statement.setInt(3, member.getWorkExperience());
-        statement.setInt(4, member.getAnnualSalary());
-        statement.setString(5, member.getGraduatedFrom());
-        statement.setString(6, member.getEducation());
-        statement.setString(7, member.getTeamPosition());
-        statement.setLong(8, member.getId());
+        statement.setInt(2, member.getWorkExperience());
+        statement.setInt(3, member.getAnnualSalary());
+        statement.setString(4, member.getGraduatedFrom());
+        statement.setString(5, member.getEducation());
+        statement.setString(6, member.getTeamPosition());
+        statement.setLong(7, member.getId());
         // 返回语句执行结果
         return statement.executeUpdate();
+    }
+
+    @Override
+    public ResultSet selectMemberById(Connection connection, Integer id) throws SQLException {
+        // 编辑 查询SQL语句
+        String selectSql = "SELECT * FROM " + MemberSchema.Table.NAME
+                + " WHERE " + MemberSchema.Table.Cols.ID + " = ?";
+        // 预执行SQL语句
+        PreparedStatement statement = connection.prepareStatement(selectSql);
+        // 设置预编译的参数
+        statement.setInt(1, id);
+        // 返回语句执行结果
+        return statement.executeQuery();
     }
 
     @Override

@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/favicon.png" type="image/x-icon"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/mglobal.css"/>
@@ -23,11 +24,11 @@
     <script>
         $(document).ready(function () {
 
-            var mobilePhoneNumberView = $("#mobilePhoneNumber");
-            var mobilePhoneNumberPrompt = $("#mobilePhoneNumberPrompt");
+            var mobilePhoneNumberView = $("#mobile-phone-number");
+            var mobilePhoneNumberPrompt = $("#mobile-phone-number-prompt");
 
             var passwordView = $("#password");
-            var passwordPrompt = $("#passwordPrompt");
+            var passwordPrompt = $("#password-prompt");
 
             var mobilePhoneNumber = mobilePhoneNumberView.val();
             var password = passwordView.val();
@@ -108,11 +109,11 @@
         </a>
         <div class="header-right" id="min-nav">
             <div class="login-register">
-                <a class="" href="logIn.jsp">登录</a>
-                <a class="on" href="signUp.jsp">注册</a>
+                <a class="" href="${pageContext.request.contextPath}/mvc/login">登录</a>
+                <a class="on" href="${pageContext.request.contextPath}/mvc/signUp">注册</a>
             </div>
             <ul class="nav" id="nav">
-                <li class=""><span></span><a href="index.jsp">首页</a></li>
+                <li class=""><span></span><a href="${pageContext.request.contextPath}/mvc/index">首页</a></li>
                 <li class=""><span></span><a href="">产品</a></li>
             </ul>
         </div>
@@ -128,12 +129,12 @@
 
                 <form>
                     <div class="form-group phone-number">
-                        <span id="mobilePhoneNumberPrompt"></span>
-                        <input type="text" id="mobilePhoneNumber" name="mobilePhoneNumber"
+                        <span id="mobile-phone-number-prompt"></span>
+                        <input type="text" id="mobile-phone-number" name="mobilePhoneNumber"
                                class="form-control" placeholder="手机号码"/>
                     </div>
                     <div class="form-group pswd">
-                        <span id="passwordPrompt"></span>
+                        <span id="password-prompt"></span>
                         <input type="password" class="form-control pwInput"
                                name="password" id="password" Placeholder="密码"/>
                     </div>
@@ -142,7 +143,7 @@
                         <div class="checkbox pull-left nomr">
                             <label>
                                 <input type="checkbox" class="checkbox remember"
-                                       name="LoginForm[rememberMe]" value="1"/>保存信息
+                                       value="1"/>保存信息
                             </label>
                         </div>
                         <a href="" class="pull-right forget">忘记密码？</a>

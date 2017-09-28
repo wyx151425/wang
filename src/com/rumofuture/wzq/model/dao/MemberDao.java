@@ -18,6 +18,8 @@ public interface MemberDao {
     // 成员信息修改方法 update
     int updateMemberInfo(Connection connection, Member member) throws SQLException;
     // 成员信息获取方法 select
+    ResultSet selectMemberById(Connection connection, Integer id) throws SQLException;
+    // 成员信息获取方法 select
     ResultSet selectMemberByMobilePhoneNumber(Connection connection, String mobilePhoneNumber) throws SQLException;
     // 成员信息获取方法 select
     ResultSet selectMemberListByLeader(Connection connection, Integer id) throws SQLException;

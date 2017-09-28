@@ -30,7 +30,8 @@ public class MemberController {
 
     @PostMapping(value = "/save")
     public ResponseMember saveMember(@RequestBody Member member) {
-        if (DataVerificationUtil.isNullObject(member) ||
+        System.out.println(member);
+        if (DataVerificationUtil.isNullObject(member) || DataVerificationUtil.isNullObject(member.getLeader().getId()) ||
                 DataVerificationUtil.isEmptyStringList(member.getName(), member.getMobilePhoneNumber())) {
             return new ResponseMember(false, PromptUtil.DATA_TRANSMISSION_ERROR, null);
         }
@@ -82,6 +83,16 @@ public class MemberController {
         return new ResponseMember(true, PromptUtil.UPDATE_SUCCESS, resultMember);
     }
 
+    @GetMapping(value = "/get")
+    public ResponseMember getMember(@RequestParam("id") Integer id) {
+        if (DataVerificationUtil.isNullObject(id)) {
+            return new ResponseMember(false, PromptUtil.DATA_TRANSMISSION_ERROR, null);
+        }
+
+        Member member = memberService.getMemberById(id);
+        return new ResponseMember(true, "message", member);
+    }
+
     @GetMapping(value = "/list")
     public ResponseMemberList getMemberList(@RequestParam("id") Integer id) {
         if (DataVerificationUtil.isNullObject(id)) {
@@ -89,7 +100,6 @@ public class MemberController {
         }
 
         List<Member> memberList = memberService.getMemberListByLeader(id);
-
-        return new ResponseMemberList(true, null, memberList);
+        return new ResponseMemberList(true, "message", memberList);
     }
 }

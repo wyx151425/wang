@@ -140,8 +140,9 @@ public class MemberServiceImpl implements MemberService {
             connection.setAutoCommit(false);  // 关闭自动提交
             // 根据传入的参数查询数据库中是否有对应的用户信息
             ResultSet resultSet = memberDao.selectMemberByMobilePhoneNumber(connection, mobilePhoneNumber);
-            Member member = new Member();
+            Member member = null;
             if (resultSet.next()) {
+                member = new Member();
                 member.setId(resultSet.getInt(MemberSchema.Table.Cols.ID));
                 member.setName(resultSet.getString(MemberSchema.Table.Cols.NAME));
                 member.setMobilePhoneNumber(resultSet.getString(MemberSchema.Table.Cols.MOBILE_PHONE_NUMBER));
@@ -151,6 +152,45 @@ public class MemberServiceImpl implements MemberService {
                 member.setGraduatedFrom(resultSet.getString(MemberSchema.Table.Cols.GRADUATED_FROM));
                 member.setEducation(resultSet.getString(MemberSchema.Table.Cols.EDUCATION));
                 member.setTeamPosition(resultSet.getString(MemberSchema.Table.Cols.TEAM_POSITION));
+            }
+            return member;
+        } catch (Exception e) {
+            e.printStackTrace();  // 异常处理
+        } finally {
+            try {
+                if (null != connection) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public Member getMemberById(Integer id) {
+        Connection connection = null;
+        try {
+            // 通过连接工厂类获得一个数据库连接
+            connection = ConnectionFactory.getInstance().getConnection();
+            connection.setAutoCommit(false);  // 关闭自动提交
+            // 根据传入的参数查询数据库中是否有对应的用户信息
+            ResultSet resultSet = memberDao.selectMemberById(connection, id);
+            Member member = null;
+            if (resultSet.next()) {
+                member = new Member();
+                member.setId(resultSet.getInt(MemberSchema.Table.Cols.ID));
+                member.setName(resultSet.getString(MemberSchema.Table.Cols.NAME));
+                member.setMobilePhoneNumber(resultSet.getString(MemberSchema.Table.Cols.MOBILE_PHONE_NUMBER));
+                member.setLeader(null);
+                member.setWorkExperience(resultSet.getInt(MemberSchema.Table.Cols.WORK_EXPERIENCE));
+                member.setAnnualSalary(resultSet.getInt(MemberSchema.Table.Cols.ANNUAL_SALARY));
+                member.setGraduatedFrom(resultSet.getString(MemberSchema.Table.Cols.GRADUATED_FROM));
+                member.setEducation(resultSet.getString(MemberSchema.Table.Cols.EDUCATION));
+                member.setTeamPosition(resultSet.getString(MemberSchema.Table.Cols.TEAM_POSITION));
+                member.setCreateTime(resultSet.getTimestamp(MemberSchema.Table.Cols.CREATE_TIME).toString());
             }
             return member;
         } catch (Exception e) {
@@ -189,6 +229,7 @@ public class MemberServiceImpl implements MemberService {
                 member.setGraduatedFrom(resultSet.getString(MemberSchema.Table.Cols.GRADUATED_FROM));
                 member.setEducation(resultSet.getString(MemberSchema.Table.Cols.EDUCATION));
                 member.setTeamPosition(resultSet.getString(MemberSchema.Table.Cols.TEAM_POSITION));
+                member.setCreateTime(resultSet.getTimestamp(MemberSchema.Table.Cols.CREATE_TIME).toString());
                 memberList.add(member);
             }
             return memberList;

@@ -35,7 +35,7 @@ body {
 }
 
 .section1 {
-    background: url(../images/theme.jpg) no-repeat center top;
+    background: url(../images/theme.png) no-repeat center top;
     padding-top: 0;
     -webkit-background-size: cover;
     background-size: cover;

@@ -13,5 +13,6 @@ public interface MemberService {
     int deleteMember(Integer id);
     Member updateMemberInfo(Member member);
     Member getMemberByMobilePhoneNumber(String mobilePhoneNumber);
+    Member getMemberById(Integer id);
     List<Member> getMemberListByLeader(Integer id);
 }

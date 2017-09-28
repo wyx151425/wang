@@ -93,7 +93,7 @@ public class UserController {
             return new ResponseUser(false, PromptUtil.DATA_TRANSMISSION_ERROR, null);
         }
 
-        if (DataVerificationUtil.isPassword(newPassword)) {
+        if (!DataVerificationUtil.isPassword(newPassword)) {
             return new ResponseUser(false, PromptUtil.USER_PASSWORD_FORMAT_ERROR, null);
         }
 

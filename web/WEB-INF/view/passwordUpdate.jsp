@@ -1,4 +1,4 @@
-<%@ page import="com.rumofuture.wzq.model.domain.User" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: WangZhenqi
   Date: 2016/12/30
@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta charset="utf-8">
     <title>密码修改</title>
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/favicon.png"
@@ -22,68 +23,80 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/datalist.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/pay.css"/>
 
+    <script src="${pageContext.request.contextPath}/js/jquery-1.11.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/jquerysession.js"></script>
     <script type="text/javascript">
-        var xmlHttpRequest;
-        function createXMLHttpRequest() {
-            if (window.ActiveXObject) {
-                xmlHttpRequest = new ActiveXObject("Microsoft.XMLHTTP");
-            } else {
-                xmlHttpRequest = new XMLHttpRequest();
+        $(document).ready(function () {
+            var userString = $.session.get("current-user");
+            if (undefined === userString || null === userString || "" === userString) {
+                window.location.href = "${pageContext.request.contextPath}/mvc/login";
             }
-        }
+            var user = JSON.parse(userString);
 
-        function validateAll() {
-            if (document.OnlinePasswordModifyForm.hidpsw.value != document.OnlinePasswordModifyForm.oldpsw.value) {
-                document.getElementById('modify-pwd-note').innerHTML = "原密码输入错误";
-                return false;
-            }
-            if (document.OnlinePasswordModifyForm.password.value != document.OnlinePasswordModifyForm.repsw.value) {
-                document.getElementById('modify-pwd-note').innerHTML = "新密码输入不一致";
-                return false;
-            }
-            if (document.OnlinePasswordModifyForm.password.value.length < 6) {
-                document.getElementById('modify-pwd-note').innerHTML = "密码必须由六位以上字符组成";
-                return false;
-            }
-            createXMLHttpRequest();
-            xmlHttpRequest.onreadystatechange = onlinePasswordModifyResult;
-            xmlHttpRequest.open("GET", "${pageContext.request.contextPath}/PasswordModifyServlet?mobile=" + document.getElementById("mobile").value + "&"
-                    + "password=" + document.getElementById("password").value);
-            xmlHttpRequest.send();
-        }
+            $("#update-button").click(function () {
+                var promptView = $("#prompt");
+                promptView.text("");
 
-        function onlinePasswordModifyResult() {
-            if (xmlHttpRequest.readyState == 4) {
-                if (xmlHttpRequest.status == 200) {
-                    var responseResult = xmlHttpRequest.responseText;
-                    if (1 == responseResult) {
-                        document.getElementById("msg_success_div").style = "display: block;";
-                        document.getElementById("msg_success").innerHTML = "修改成功";
-                    } else {
-                        document.getElementById("msg_error_div").style = "display: block;";
-                        document.getElementById("msg_error").innerHTML = "修改失败";
-                    }
+                var oldPassword = $("#old-password").val();
+                var newPassword = $("#new-password").val();
+                var repeatNewPassword = $("#repeat-new-password").val();
+
+                if (!(user.password === oldPassword)) {
+                    promptView.text("请输入正确的原密码");
+                    return;
                 }
-            }
-        }
-    </script>
-    <script>
-        function positiveClick() {
-            document.getElementById("msg_success_div").style = "display: none;";
-        }
 
-        function nagivateClick() {
-            document.getElementById("msg_error_div").style = "display: none;";
-        }
+                if (!(newPassword === repeatNewPassword)) {
+                    promptView.text("新密码两次输入不相同");
+                    return;
+                }
+
+                if (newPassword.length < 6) {
+                    promptView.text("请输入正确格式的新密码");
+                    return;
+                }
+
+                $.ajax(
+                    {
+                        dataType: "json",
+                        type: "post",
+                        contentType: "application/json",
+                        url: "${pageContext.request.contextPath}/user/password/update?id=" + user.id
+                            + "&oldPassword=" + oldPassword + "&newPassword=" + newPassword,
+                        async: true,
+                        success: function (data) {
+                            if (1 === data.status) {
+                                $("#msg-success-div").css("display", "block");
+                                $("#msg-success").text(data.message);
+                                user.password = newPassword;
+                            } else {
+                                $("#msg-error-div").css("display", "block");
+                                $("#msg-error").text(data.message);
+                            }
+                        }
+                    }
+                );
+            });
+
+            $("#positive-button").click(function () {
+                $("#msg-success-div").css("display", "none");
+                $("#msg-success").text("");
+            });
+
+            $("#navigate-button").click(function () {
+                $("#msg-error-div").css("display", "none");
+                $("#msg-error").text("");
+            });
+        });
     </script>
 </head>
 <body>
 
 <div id="nav" class="sidenav">
     <ul>
-        <li><a href="index.jsp">首页</a></li>
-        <li><a href="team.jsp">团队</a></li>
-        <li class="on"><a href="userInfo.jsp">个人</a></li>
+        <li><a href="${pageContext.request.contextPath}/mvc/index">首页</a></li>
+        <li><a href="${pageContext.request.contextPath}/mvc/team">团队</a></li>
+        <li class="on"><a href="${pageContext.request.contextPath}/mvc/userInfo">个人</a></li>
     </ul>
 </div>
 
@@ -94,9 +107,9 @@
                 <p class="biaoti pd1"><b>个人管理</b></p>
             </div>
             <ul class="subnav">
-                <li><a href="userInfo.jsp">个人信息</a></li>
-                <li><a href="team.jsp">团队管理</a></li>
-                <li class="on"><a href="passwordUpdate.jsp">密码修改</a></li>
+                <li><a href="${pageContext.request.contextPath}/mvc/userInfo">个人信息</a></li>
+                <li><a href="${pageContext.request.contextPath}/mvc/team">团队管理</a></li>
+                <li class="on"><a href="${pageContext.request.contextPath}/mvc/passwordUpdate">密码修改</a></li>
             </ul>
         </div>
     </div>
@@ -107,36 +120,27 @@
         <form id="user-form" action=""
               method="post" class="form-horizontal" role="form" name="OnlinePasswordModifyForm" onsubmit="return false">
             <div class="form-group">
-                <label class="col-sm-2 control-label nopd  col-lg-1 mt8">现有密码：</label>
+                <label class="col-sm-2 control-label nopd  col-lg-1 mt8">原密码：</label>
                 <div class="col-sm-10 col-lg-5">
-                    <input type="hidden" value="<%=((User) request.getSession().getAttribute("currentUser")).getMobilePhoneNumber()%>"
-                           name="mobile" id="mobile"/>
-                    <input type="hidden" value="<%=((User) request.getSession().getAttribute("currentUser")).getPassword()%>"
-                           name="hidpsw" id="hidpsw"/>
-                    <input type="password" class="form-control" placeholder="必填"
-                           name="oldpsw" id="oldpsw"/>
+                    <input type="password" class="form-control" placeholder="必填" id="old-password"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label nopd  col-lg-1 mt8">新密码：</label>
                 <div class="col-sm-10 col-lg-5">
-                    <input type="password" class="form-control" placeholder="必填"
-                           name="password" id="password"/>
+                    <input type="password" class="form-control" placeholder="必填" id="new-password"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label nopd mt13 col-lg-1">确认新密码：</label>
                 <div class="col-sm-10 col-lg-5">
-                    <input type="password" class="form-control" placeholder="必填"
-                           name="repsw" id="repsw"/>
-                    <p id="modify-pwd-note" class="tips"></p>
+                    <input type="password" class="form-control" placeholder="必填" id="repeat-new-password"/>
+                    <p id="prompt" class="tips"></p>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-lg-offset-1 col-sm-10 col-lg-5">
-                    <button class="btn bg-blue save-btn"
-                            id="updateBtn" onclick="validateAll()">确定
-                    </button>
+                    <button type="button" class="btn bg-blue save-btn" id="update-button">确定</button>
                 </div>
             </div>
         </form>
@@ -151,14 +155,14 @@
         </div>
     </div>
 </div>
-<div id="msg_success_div" class="alert alert-success alert-dismissable" style="display: none;">
-    <button id="positive_button" type="button" class="close" aria-hidden="true" onclick="positiveClick()">&times;</button>
-    <div id="msg_success"></div>
+<div id="msg-success-div" class="alert alert-success alert-dismissable" style="display: none;">
+    <button id="positive-button" type="button" class="close" aria-hidden="true">&times;</button>
+    <div id="msg-success"></div>
 </div>
 
-<div id="msg_error_div" class="alert alert-danger alert-dismissable" style="display: none;">
-    <button id="nagivate_button" type="button" class="close" aria-hidden="true" onclick="nagivateClick()">&times;</button>
-    <div id="msg_error"></div>
+<div id="msg-error-div" class="alert alert-danger alert-dismissable" style="display: none;">
+    <button id="navigate-button" type="button" class="close" aria-hidden="true">&times;</button>
+    <div id="msg-error"></div>
 </div>
 </body>
 </html>

@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta charset="utf-8">
     <title>新增成员</title>
     <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/images/favicon.png"/>
@@ -21,62 +22,70 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/zTreeStyle.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap-switch.css"/>
 
+    <script src="${pageContext.request.contextPath}/js/jquery-1.11.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/jquerysession.js"></script>
     <script>
-        var xmlHttpRequest;
-        function createXMLHttpRequest() {
-            if (window.ActiveXObject) {
-                xmlHttpRequest = new ActiveXObject("Microsoft.XMLHTTP");
-            } else {
-                xmlHttpRequest = new XMLHttpRequest();
+        $(document).ready(function () {
+            var userString = $.session.get("current-user");
+            if (undefined === userString || null === userString || "" === userString) {
+                window.location.href = "${pageContext.request.contextPath}/mvc/login";
             }
-        }
-        function memberIntive() {
-            createXMLHttpRequest();
-            xmlHttpRequest.onreadystatechange = memberIntiveResult;
-            xmlHttpRequest.open("GET", "${pageContext.request.contextPath}/MemberInviteServlet?"
-                    + "name=" + document.getElementById("name").value + "&"
-                    + "mobile_phone=" + document.getElementById("mobile_phone").value + "&"
-                    + "work_exprience=" + document.getElementById("work_exprience").value + "&"
-                    + "annual_salary=" + document.getElementById("annual_salary").value + "&"
-                    + "graduated_from=" + document.getElementById("graduated_from").value + "&"
-                    + "education=" + document.getElementById("education").value + "&"
-                    + "team_position=" + document.getElementById("team_position").value);
-            xmlHttpRequest.send();
-        }
+            var user = JSON.parse(userString);
 
-        function memberIntiveResult() {
-            if (xmlHttpRequest.readyState == 4) {
-                if (xmlHttpRequest.status == 200) {
-                    var responseResult = xmlHttpRequest.responseText;
-                    if (1 == responseResult) {
-                        document.getElementById("msg_success_div").style = "display: block;";
-                        document.getElementById("msg_success").innerHTML = "添加成功";
-                    } else {
-                        document.getElementById("msg_error_div").style = "display: block;";
-                        document.getElementById("msg_error").innerHTML = "添加失败";
+            $("#submit-button").click(function () {
+                $.ajax("${pageContext.request.contextPath}/member/save",
+                    {
+                        dataType: "json",
+                        type: "post",
+                        contentType: "application/json",
+                        data: JSON.stringify(
+                            {
+                                name: $("#name").val(),
+                                leader:
+                                    {
+                                        id: user.id,
+                                    },
+                                mobilePhoneNumber: $("#mobile-phone-number").val(),
+                                workExperience: $("#work-experience").val(),
+                                annualSalary: $("#annual-salary").val(),
+                                graduatedFrom: $("#graduated-from").val(),
+                                education: $("#education").val(),
+                                teamPosition: $("#team-position").val()
+                            }
+                        ),
+                        async: true,
+                        success: function (data) {
+                            if (1 === data.status) {
+                                $("#msg-success-div").css("display", "block");
+                                $("#msg-success").text(data.message);
+                            } else {
+                                $("#msg-error-div").css("display", "block");
+                                $("#msg-error").text(data.message);
+                            }
+                        }
                     }
+                );
+            });
 
-                }
-            }
-        }
-    </script>
-    <script>
-        function positiveClick() {
-            document.getElementById("msg_success_div").style = "display: none;";
-        }
+            $("#positive-button").click(function () {
+                $("#msg-success-div").css("display", "none");
+                $("#msg-success").text("");
+            });
 
-        function nagivateClick() {
-            document.getElementById("msg_error_div").style = "display: none;";
-        }
+            $("#navigate-button").click(function () {
+                $("#msg-error-div").css("display", "none");
+                $("#msg-error").text("");
+            });
+        });
     </script>
 </head>
 <body>
 
 <div id="nav" class="sidenav">
     <ul>
-        <li><a href="index.jsp">首页</a></li>
-        <li class="on"><a href="team.jsp">团队</a></li>
-        <li><a href="userInfo.jsp">个人</a></li>
+        <li><a href="${pageContext.request.contextPath}/mvc/index">首页</a></li>
+        <li class="on"><a href="${pageContext.request.contextPath}/mvc/team">团队</a></li>
+        <li><a href="${pageContext.request.contextPath}/mvc/userInfo">个人</a></li>
     </ul>
 </div>
 
@@ -87,7 +96,7 @@
                 <p class="biaoti pd1"><b>团队管理</b></p>
             </div>
             <ul class="subnav">
-                <li class="on"><a href="teamManage.jsp">团队管理</a></li>
+                <li class="on"><a href="${pageContext.request.contextPath}/mvc/teamManage">团队管理</a></li>
             </ul>
         </div>
     </div>
@@ -95,13 +104,12 @@
 
 <div class="main-right container">
     <div class="lists box-sh return-finace">
-        <a class="glyphicon glyphicon-arrow-left" href="team.jsp"></a>
+        <a class="glyphicon glyphicon-arrow-left" href="${pageContext.request.contextPath}/mvc/team"></a>
         <span>新增成员</span>
     </div>
 
     <div class="mt order-table">
-        <form class="form-horizontal info-edit" role="form" method="post"
-              action="" onsubmit="return false">
+        <form class="form-horizontal info-edit" role="form">
             <div class="form-group">
                 <label class="col-sm-2 nopd control-label mt8 col-lg-1">真实姓名</label>
                 <div class="col-sm-6">
@@ -111,42 +119,42 @@
             <div class="form-group">
                 <label class="col-sm-2 nopd control-label mt8 col-lg-1">手机号码</label>
                 <div class="col-sm-6">
-                    <input type="text" id="mobile_phone" name="mobile_phone" class="form-control"/>
+                    <input type="text" id="mobile-phone-number" class="form-control"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 nopd control-label mt8 col-lg-1">经验(/年)</label>
                 <div class="col-sm-6">
-                    <input type="text" id="work_exprience" name="work_exprience" class="form-control"/>
+                    <input type="text" id="work-experience" class="form-control"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 nopd control-label mt8 col-lg-1">年薪(/万)</label>
                 <div class="col-sm-6">
-                    <input type="text" id="annual_salary" name="annual_salary" class="form-control"/>
+                    <input type="text" id="annual-salary" class="form-control"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 nopd control-label mt8 col-lg-1">毕业院校</label>
                 <div class="col-sm-6">
-                    <input type="text" id="graduated_from" name="graduated_from" class="form-control"/>
+                    <input type="text" id="graduated-from" class="form-control"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 nopd control-label mt8 col-lg-1">最高学历</label>
                 <div class="col-sm-6">
-                    <input type="text" id="education" name="education" class="form-control"/>
+                    <input type="text" id="education" class="form-control"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 nopd control-label mt8 col-lg-1">团队职务</label>
                 <div class="col-sm-6">
-                    <input type="text" id="team_position" name="team_position" class="form-control"/>
+                    <input type="text" id="team-position" class="form-control"/>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-lg-offset-1 col-sm-10 ">
-                    <button class="btn bg-blue save-btn" onclick="memberIntive()">添加</button>
+                    <button id="submit-button" type="button" class="btn bg-blue save-btn">添加</button>
                 </div>
             </div>
         </form>
@@ -166,14 +174,16 @@
     </div>
 </div>
 
-<div id="msg_success_div" class="alert alert-success alert-dismissable" style="display: none;">
-    <button id="positive_button" type="button" class="close" aria-hidden="true" onclick="positiveClick()">&times;</button>
-    <div id="msg_success"></div>
+<div id="msg-success-div" class="alert alert-success alert-dismissable" style="display: none;">
+    <button id="positive-button" type="button" class="close" aria-hidden="true">&times;
+    </button>
+    <div id="msg-success"></div>
 </div>
 
-<div id="msg_error_div" class="alert alert-danger alert-dismissable" style="display: none;">
-    <button id="nagivate_button" type="button" class="close" aria-hidden="true" onclick="nagivateClick()">&times;</button>
-    <div id="msg_error"></div>
+<div id="msg-error-div" class="alert alert-danger alert-dismissable" style="display: none;">
+    <button id="navigate-button" type="button" class="close" aria-hidden="true">&times;
+    </button>
+    <div id="msg-error"></div>
 </div>
 </body>
 </html>

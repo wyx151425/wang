@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.time.LocalDateTime;
 
 /**
  * Created by WangZhenqi on 2017/09/27.
@@ -71,8 +72,9 @@ public class UserServiceImpl implements UserService {
             connection.setAutoCommit(false);  // 关闭自动提交
             // 根据传入的参数查询数据库中是否有对应的用户信息
             ResultSet resultSet = userDao.selectUserByMobilePhoneNumber(connection, mobilePhoneNumber);
+            User user = null;
             if (resultSet.next()) {
-                User user = new User();
+                user = new User();
                 user.setId(resultSet.getInt(UserSchema.Table.Cols.ID));
                 user.setName(resultSet.getString(UserSchema.Table.Cols.NAME));
                 user.setMobilePhoneNumber(resultSet.getString(UserSchema.Table.Cols.MOBILE_PHONE_NUMBER));
@@ -82,8 +84,9 @@ public class UserServiceImpl implements UserService {
                 user.setGraduatedFrom(resultSet.getString(UserSchema.Table.Cols.GRADUATED_FROM));
                 user.setEducation(resultSet.getString(UserSchema.Table.Cols.EDUCATION));
                 user.setTeamPosition(resultSet.getString(UserSchema.Table.Cols.TEAM_POSITION));
-                return user;
+                user.setCreateTime(resultSet.getTimestamp(UserSchema.Table.Cols.CREATE_TIME).toString());
             }
+            return user;
         } catch (Exception e) {
             e.printStackTrace();    // 异常处理
         } finally {
@@ -176,8 +179,9 @@ public class UserServiceImpl implements UserService {
             connection = ConnectionFactory.getInstance().getConnection();
             connection.setAutoCommit(false);
             ResultSet resultSet = userDao.selectUserById(connection, id);
+            User user = null;
             if (resultSet.next()) {
-                User user = new User();
+                user = new User();
                 user.setId(resultSet.getInt(UserSchema.Table.Cols.ID));
                 user.setName(resultSet.getString(UserSchema.Table.Cols.NAME));
                 user.setMobilePhoneNumber(resultSet.getString(UserSchema.Table.Cols.MOBILE_PHONE_NUMBER));
@@ -187,8 +191,9 @@ public class UserServiceImpl implements UserService {
                 user.setGraduatedFrom(resultSet.getString(UserSchema.Table.Cols.GRADUATED_FROM));
                 user.setEducation(resultSet.getString(UserSchema.Table.Cols.EDUCATION));
                 user.setTeamPosition(resultSet.getString(UserSchema.Table.Cols.TEAM_POSITION));
-                return user;
+                user.setCreateTime(resultSet.getTimestamp(UserSchema.Table.Cols.CREATE_TIME).toString());
             }
+            return user;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

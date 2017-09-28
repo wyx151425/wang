@@ -9,21 +9,6 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
-    <meta name="format-detection" content="telphone=no, email=no"/>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="true">
-    <meta name="MobileOptimized" content="320">
-    <meta name="screen-orientation" content="portrait">
-    <meta name="x5-orientation" content="portrait">
-    <meta name="full-screen" content="yes">
-    <meta name="x5-fullscreen" content="true">
-    <meta name="browsermode" content="application">
-    <meta name="x5-page-mode" content="app">
-    <meta name="renderer" content="webkit">
-    <meta name="msapplication-tap-highlight" content="no">
     <meta charset="utf-8">
 
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/favicon.png"
@@ -51,7 +36,7 @@
         </a>
         <div class="header-right" id="min-nav">
             <ul class="nav" id="nav">
-                <li class="on"><span></span><a href="index.jsp">主页</a></li>
+                <li class="on"><span></span><a href="${pageContext.request.contextPath}/mvc/index">主页</a></li>
                 <li class=""><span></span><a href="#intro_self">简介</a></li>
                 <li class=""><span></span><a href="#intro_production">作品</a></li>
             </ul>
@@ -66,7 +51,7 @@
         <h1 class="text-center">不忘初心&nbsp;&nbsp;感动人心</h1>
         <br/>
         <div class="more">
-            <a href="logIn.jsp">登录</a>
+            <a href="${pageContext.request.contextPath}/mvc/login">登录</a>
         </div>
     </div>
 </div>

@@ -19,7 +19,7 @@ public class Member implements Serializable {
     private String graduatedFrom;
     private String education;
     private String teamPosition;
-    private LocalDateTime createTime;
+    private String createTime;
 
     public Member() {
 
@@ -105,11 +105,11 @@ public class Member implements Serializable {
         this.teamPosition = teamPosition;
     }
 
-    public LocalDateTime getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 

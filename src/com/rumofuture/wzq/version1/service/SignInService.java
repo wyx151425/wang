@@ -36,7 +36,7 @@ public class SignInService {
                 resultUser.setEducation(resultSet.getString(UserSchema.Table.Cols.EDUCATION));
                 resultUser.setTeamPosition(resultSet.getString(UserSchema.Table.Cols.TEAM_POSITION));
                 resultUser.setPassword(resultSet.getString(UserSchema.Table.Cols.PASSWORD));
-                resultUser.setCreateTime(LocalDateTime.parse(UserSchema.Table.Cols.CREATE_TIME));
+                resultUser.setCreateTime(LocalDateTime.now().withNano(0).toString());
 
                 return resultUser;
             }

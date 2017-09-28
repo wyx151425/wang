@@ -57,8 +57,8 @@ public class MemberInfoModifyServlet extends HttpServlet {
         member.setGraduatedFrom(graduatedFrom);
         member.setEducation(education);
         member.setTeamPosition(teamPosition);
-        if (memberModify != null) {
-            member.setCreateTime(LocalDateTime.parse(memberModify.getString("create_time")));
+        if (null != memberModify) {
+            member.setCreateTime(memberModify.getString("create_time"));
         }
 
         String result;

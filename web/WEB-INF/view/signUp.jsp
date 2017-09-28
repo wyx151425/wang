@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/favicon.png" type="image/x-icon"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/mglobal.css"/>
@@ -126,11 +127,12 @@
                 title="儒墨未来团队 - 王振琦"/></a>
         <div class="header-right" id="min-nav">
             <div class="login-register">
-                <a class="" href="logIn.jsp">登录</a>
-                <a class="" href="signUp.jsp">注册</a>
+                <a class="" href="${pageContext.request.contextPath}/mvc/login">登录</a>
+                <a class="" href="${pageContext.request.contextPath}/mvc/signUp">注册</a>
             </div>
             <ul class="nav" id="nav">
-                <li class="index.jsp"><span></span><a href="">主页</a></li>
+                <li class=""><span></span><a href="${pageContext.request.contextPath}/mvc/index">首页</a></li>
+                <li class=""><span></span><a href="">产品</a></li>
             </ul>
         </div>
     </div>
