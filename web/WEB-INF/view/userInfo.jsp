@@ -10,8 +10,7 @@
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta charset="utf-8">
-    <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/favicon.png"
-          type="image/x-icon"/>
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/favicon.png" type="image/x-icon"/>
     <title>个人信息</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/global.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
@@ -179,7 +178,7 @@
 
     <div class="footer">
         <div class="footer-left pull-left">
-            <a href="index.jsp">
+            <a href="${pageContext.request.contextPath}/mvc/index">
                 <img src="${pageContext.request.contextPath}/images/logo.png" alt="王振琦"/>
             </a>
         </div>

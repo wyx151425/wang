@@ -64,7 +64,7 @@
                                     '<td>' + this.createTime + '</td>' +
                                     '<td>' +
                                     '<a class="btn btn-link" href="${pageContext.request.contextPath}/mvc/memberInfo?id=' + this.id + '">编辑</a>' +
-                                    '<button type="button" class="btn btn-link btn-del">删除</button>' +
+                                    '<button type="button" class="btn btn-link btn-del" onclick="deleteMember(' + this.id + ')">删除</button>' +
                                     '</td>' +
                                     '</tr>';
                             });
@@ -75,31 +75,29 @@
             );
         }
 
-        $("#table-body").on("click", function () {
-            alert("click");
-        });
+        function deleteMember(id) {
+            $.ajax("${pageContext.request.contextPath}/member/delete?id=" + id,
+                {
+                    dataType: "json",
+                    type: "post",
+                    contentType: "application/json",
+                    success: function (data) {
+                        if (1 === data.status) {
+//                            $("#msg-success-div").css("display", "block");
+//                            $("#msg-success").text(data.message);
+                            window.location.href = "${pageContext.request.contextPath}/mvc/teamManage";
+                        } else {
+                            $("#msg-error-div").css("display", "block");
+                            $("#msg-error").text(data.message);
+                        }
+                    }
+                }
+            );
+        }
 
-        <%--$("#table-body").on("click", "tr>td", function () {--%>
-            <%--alert("click");--%>
-            <%--var id = $(this).attr("member-id");--%>
-            <%--$.ajax("${pageContext.request.contextPath}/member/delete?id=" + id,--%>
-                <%--{--%>
-                    <%--dataType: "json",--%>
-                    <%--type: "post",--%>
-                    <%--contentType: "application/json",--%>
-                    <%--success: function (data) {--%>
-                        <%--if (1 === data.status) {--%>
-                            <%--$("#msg-success-div").css("display", "block");--%>
-                            <%--$("#msg-success").text(data.message);--%>
-                            <%--window.location.href = "${pageContext.request.contextPath}/mvc/teamManage";--%>
-                        <%--} else {--%>
-                            <%--$("#msg-error-div").css("display", "block");--%>
-                            <%--$("#msg-error").text(data.message);--%>
-                        <%--}--%>
-                    <%--}--%>
-                <%--}--%>
-            <%--);--%>
-        <%--});--%>
+//        $("#table-body").on("click", "tr>td", function () {
+//            var id = $(this).attr("member-id");
+//        });
     </script>
 
 </head>

@@ -159,7 +159,7 @@
                 </form>
 
                 <div class="agreement">
-                    没有账号？<a href="signUp.jsp">免费注册&gt;&gt;</a>
+                    没有账号？<a href="${pageContext.request.contextPath}/mvc/signUp">免费注册&gt;&gt;</a>
                 </div>
 
             </div>

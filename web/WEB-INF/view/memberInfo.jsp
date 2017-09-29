@@ -210,7 +210,7 @@
 
     <div class="footer">
         <div class="footer-left pull-left">
-            <a href="index.jsp">
+            <a href="${pageContext.request.contextPath}/mvc/index">
                 <img src="${pageContext.request.contextPath}/images/logo.png" alt="王振琦"/>
             </a>
         </div>

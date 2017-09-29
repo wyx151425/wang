@@ -148,7 +148,9 @@
 
     <div class="footer">
         <div class="footer-left pull-left">
-            <a href="index.jsp"><img src="${pageContext.request.contextPath}/images/logo.png" alt="王振琦"/></a>
+            <a href="${pageContext.request.contextPath}/mvc/index">
+                <img src="${pageContext.request.contextPath}/images/logo.png" alt="王振琦"/>
+            </a>
         </div>
         <div class="footer-right pull-right">
             <a href="">2014级软件工程三班王振琦</a>
