@@ -1,7 +1,7 @@
 package com.rumofuture.wzq.service.impl;
 
 import com.rumofuture.wzq.model.dao.UserDao;
-import com.rumofuture.wzq.model.dao.UserSchema;
+import com.rumofuture.wzq.model.schema.UserSchema;
 import com.rumofuture.wzq.model.domain.User;
 import com.rumofuture.wzq.service.UserService;
 import com.rumofuture.wzq.util.ConnectionUtil;
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
                 return user;
             }
         } catch (Exception e) {
-            logger.error(e.getMessage());  // 异常处理
+            e.printStackTrace();  // 异常处理
             try {
                 if (null != connection) {
                     connection.rollback();
@@ -76,13 +76,13 @@ public class UserServiceImpl implements UserService {
                 user.setWorkExperience(resultSet.getInt(UserSchema.Table.Cols.WORK_EXPERIENCE));
                 user.setAnnualSalary(resultSet.getInt(UserSchema.Table.Cols.ANNUAL_SALARY));
                 user.setGraduatedFrom(resultSet.getString(UserSchema.Table.Cols.GRADUATED_FROM));
-                user.setEducation(resultSet.getString(UserSchema.Table.Cols.EDUCATION));
+                user.setHighestEducation(resultSet.getString(UserSchema.Table.Cols.HIGHEST_EDUCATION));
                 user.setTeamPosition(resultSet.getString(UserSchema.Table.Cols.TEAM_POSITION));
                 user.setCreateTime(resultSet.getTimestamp(UserSchema.Table.Cols.CREATE_TIME).toString());
             }
             return user;
         } catch (Exception e) {
-            logger.error(e.getMessage());    // 异常处理
+            e.printStackTrace();    // 异常处理
         }
 
         return null;
@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
                 return user;
             }
         } catch (Exception e) {
-            logger.error(e.getMessage());    // 异常处理
+            e.printStackTrace();    // 异常处理
             try {
                 if (null != connection) {
                     connection.rollback();
@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
                 return user;
             }
         } catch (Exception e) {
-            logger.error(e.getMessage());  // 异常处理
+            e.printStackTrace();  // 异常处理
             try {
                 if (null != connection) {
                     connection.rollback();
@@ -158,13 +158,13 @@ public class UserServiceImpl implements UserService {
                 user.setWorkExperience(resultSet.getInt(UserSchema.Table.Cols.WORK_EXPERIENCE));
                 user.setAnnualSalary(resultSet.getInt(UserSchema.Table.Cols.ANNUAL_SALARY));
                 user.setGraduatedFrom(resultSet.getString(UserSchema.Table.Cols.GRADUATED_FROM));
-                user.setEducation(resultSet.getString(UserSchema.Table.Cols.EDUCATION));
+                user.setHighestEducation(resultSet.getString(UserSchema.Table.Cols.HIGHEST_EDUCATION));
                 user.setTeamPosition(resultSet.getString(UserSchema.Table.Cols.TEAM_POSITION));
                 user.setCreateTime(resultSet.getTimestamp(UserSchema.Table.Cols.CREATE_TIME).toString());
             }
             return user;
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            e.printStackTrace();
         }
 
         return null;
@@ -185,12 +185,12 @@ public class UserServiceImpl implements UserService {
                 user.setWorkExperience(resultSet.getInt(UserSchema.Table.Cols.WORK_EXPERIENCE));
                 user.setAnnualSalary(resultSet.getInt(UserSchema.Table.Cols.ANNUAL_SALARY));
                 user.setGraduatedFrom(resultSet.getString(UserSchema.Table.Cols.GRADUATED_FROM));
-                user.setEducation(resultSet.getString(UserSchema.Table.Cols.EDUCATION));
+                user.setHighestEducation(resultSet.getString(UserSchema.Table.Cols.HIGHEST_EDUCATION));
                 user.setTeamPosition(resultSet.getString(UserSchema.Table.Cols.TEAM_POSITION));
                 return user;
             }
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            e.printStackTrace();
         }
 
         return null;

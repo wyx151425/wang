@@ -1,7 +1,7 @@
 package com.rumofuture.wzq.model.dao.impl;
 
 import com.rumofuture.wzq.model.dao.MemberDao;
-import com.rumofuture.wzq.model.dao.MemberSchema;
+import com.rumofuture.wzq.model.schema.MemberSchema;
 import com.rumofuture.wzq.model.domain.Member;
 import org.springframework.stereotype.Repository;
 
@@ -27,7 +27,7 @@ public class MemberDaoImpl implements MemberDao {
                 + MemberSchema.Table.Cols.WORK_EXPERIENCE + ", "
                 + MemberSchema.Table.Cols.ANNUAL_SALARY + ", "
                 + MemberSchema.Table.Cols.GRADUATED_FROM + ", "
-                + MemberSchema.Table.Cols.EDUCATION + ", "
+                + MemberSchema.Table.Cols.HIGHEST_EDUCATION + ", "
                 + MemberSchema.Table.Cols.TEAM_POSITION + ") "
                 + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
         // 预执行SQL语句
@@ -39,7 +39,7 @@ public class MemberDaoImpl implements MemberDao {
         statement.setInt(4, member.getWorkExperience());
         statement.setInt(5, member.getAnnualSalary());
         statement.setString(6, member.getGraduatedFrom());
-        statement.setString(7, member.getEducation());
+        statement.setString(7, member.getHighestEducation());
         statement.setString(8, member.getTeamPosition());
 
         statement.executeUpdate();
@@ -73,7 +73,7 @@ public class MemberDaoImpl implements MemberDao {
                 + MemberSchema.Table.Cols.WORK_EXPERIENCE + " = ?, "
                 + MemberSchema.Table.Cols.ANNUAL_SALARY + " = ?, "
                 + MemberSchema.Table.Cols.GRADUATED_FROM + " = ?, "
-                + MemberSchema.Table.Cols.EDUCATION + " = ?, "
+                + MemberSchema.Table.Cols.HIGHEST_EDUCATION + " = ?, "
                 + MemberSchema.Table.Cols.TEAM_POSITION + " = ? " + "WHERE "
                 + MemberSchema.Table.Cols.ID + " = ?";
         // 预执行SQL语句
@@ -83,7 +83,7 @@ public class MemberDaoImpl implements MemberDao {
         statement.setInt(2, member.getWorkExperience());
         statement.setInt(3, member.getAnnualSalary());
         statement.setString(4, member.getGraduatedFrom());
-        statement.setString(5, member.getEducation());
+        statement.setString(5, member.getHighestEducation());
         statement.setString(6, member.getTeamPosition());
         statement.setLong(7, member.getId());
         // 返回语句执行结果

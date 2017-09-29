@@ -1,6 +1,6 @@
 package com.rumofuture.wzq.version1.servlet;
 
-import com.rumofuture.wzq.model.dao.MemberSchema;
+import com.rumofuture.wzq.model.schema.MemberSchema;
 import com.rumofuture.wzq.model.domain.Member;
 import com.rumofuture.wzq.model.domain.User;
 import com.rumofuture.wzq.version1.service.MemberInviteService;
@@ -40,7 +40,7 @@ public class MemberInviteServlet extends HttpServlet {
         member.setWorkExperience(Integer.parseInt(workExprience));
         member.setAnnualSalary(Integer.parseInt(annualSalary));
         member.setGraduatedFrom(graduatedFrom);
-        member.setEducation(education);
+        member.setHighestEducation(education);
         member.setTeamPosition(teamPosition);
 
         JSONObject jsonObject = new JSONObject();
@@ -51,7 +51,7 @@ public class MemberInviteServlet extends HttpServlet {
         jsonObject.put(MemberSchema.Table.Cols.WORK_EXPERIENCE, workExprience);
         jsonObject.put(MemberSchema.Table.Cols.ANNUAL_SALARY, annualSalary);
         jsonObject.put(MemberSchema.Table.Cols.GRADUATED_FROM, graduatedFrom);
-        jsonObject.put(MemberSchema.Table.Cols.EDUCATION, education);
+        jsonObject.put(MemberSchema.Table.Cols.HIGHEST_EDUCATION, education);
         jsonObject.put(MemberSchema.Table.Cols.TEAM_POSITION,teamPosition);
         jsonObject.put(MemberSchema.Table.Cols.CREATE_TIME, "now");
 

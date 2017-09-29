@@ -49,7 +49,7 @@
                                 workExperience: $("#work-experience").val(),
                                 annualSalary: $("#annual-salary").val(),
                                 graduatedFrom: $("#graduated-from").val(),
-                                education: $("#education").val(),
+                                highestEducation: $("#education").val(),
                                 teamPosition: $("#team-position").val()
                             }
                         ),

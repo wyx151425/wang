@@ -1,7 +1,7 @@
 package com.rumofuture.wzq.version1.service;
 
 import com.rumofuture.wzq.model.dao.UserDao;
-import com.rumofuture.wzq.model.dao.UserSchema;
+import com.rumofuture.wzq.model.schema.UserSchema;
 import com.rumofuture.wzq.model.domain.User;
 import com.rumofuture.wzq.model.dao.impl.UserDaoImpl;
 import com.rumofuture.wzq.version1.util.ConnectionFactory;
@@ -33,7 +33,7 @@ public class SignInService {
                 resultUser.setWorkExperience(resultSet.getInt(UserSchema.Table.Cols.WORK_EXPERIENCE));
                 resultUser.setAnnualSalary(resultSet.getInt(UserSchema.Table.Cols.ANNUAL_SALARY));
                 resultUser.setGraduatedFrom(resultSet.getString(UserSchema.Table.Cols.GRADUATED_FROM));
-                resultUser.setEducation(resultSet.getString(UserSchema.Table.Cols.EDUCATION));
+                resultUser.setHighestEducation(resultSet.getString(UserSchema.Table.Cols.HIGHEST_EDUCATION));
                 resultUser.setTeamPosition(resultSet.getString(UserSchema.Table.Cols.TEAM_POSITION));
                 resultUser.setPassword(resultSet.getString(UserSchema.Table.Cols.PASSWORD));
                 resultUser.setCreateTime(LocalDateTime.now().withNano(0).toString());

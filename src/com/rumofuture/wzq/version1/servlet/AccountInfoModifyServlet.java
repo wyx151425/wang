@@ -20,7 +20,7 @@ public class AccountInfoModifyServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
-        String workExprience = request.getParameter("work_exprience");
+        String workExprience = request.getParameter("work_experience");
         String annualSalary = request.getParameter("annual_salary");
         String graduatedFrom = request.getParameter("graduated_from");
         String education = request.getParameter("education");
@@ -36,7 +36,7 @@ public class AccountInfoModifyServlet extends HttpServlet {
         user.setWorkExperience(Integer.parseInt(workExprience));
         user.setAnnualSalary(Integer.parseInt(annualSalary));
         user.setGraduatedFrom(graduatedFrom);
-        user.setEducation(education);
+        user.setHighestEducation(education);
         user.setTeamPosition(teamPosition);
         user.setCreateTime(currentUser.getCreateTime());
 

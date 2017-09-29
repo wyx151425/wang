@@ -28,7 +28,7 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @PostMapping(value = "/save")
+    @PostMapping(value = "/invite")
     public ResponseMember saveMember(@RequestBody Member member) {
         if (DataVerificationUtil.isNullObject(member) || DataVerificationUtil.isNullObject(member.getLeader().getId()) ||
                 DataVerificationUtil.isEmptyStringList(member.getName(), member.getMobilePhoneNumber())) {

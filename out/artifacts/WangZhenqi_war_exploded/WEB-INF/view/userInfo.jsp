@@ -36,7 +36,7 @@
             $("#work-experience").val(user.workExperience);
             $("#annual-salary").val(user.annualSalary);
             $("#graduated-from").val(user.graduatedFrom);
-            $("#education").val(user.education);
+            $("#education").val(user.highestEducation);
             $("#team-position").val(user.teamPosition);
             $("#create-time").val(user.createTime);
             
@@ -53,7 +53,7 @@
                                 workExperience: $("#work-experience").val(),
                                 annualSalary: $("#annual-salary").val(),
                                 graduatedFrom: $("#graduated-from").val(),
-                                education: $("#education").val(),
+                                highestEducation: $("#education").val(),
                                 teamPosition: $("#team-position").val()
                             }
                         ),

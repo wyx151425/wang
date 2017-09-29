@@ -1,6 +1,6 @@
 package com.rumofuture.wzq.version1.servlet;
 
-import com.rumofuture.wzq.model.dao.MemberSchema;
+import com.rumofuture.wzq.model.schema.MemberSchema;
 import com.rumofuture.wzq.model.domain.Member;
 import com.rumofuture.wzq.model.domain.User;
 import com.rumofuture.wzq.version1.service.MemberInfoModifyService;
@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDateTime;
 
 /**
  * Created by WangZhenqi on 2016/12/30.
@@ -55,7 +54,7 @@ public class MemberInfoModifyServlet extends HttpServlet {
         member.setWorkExperience(workExprience);
         member.setAnnualSalary(annualSalary);
         member.setGraduatedFrom(graduatedFrom);
-        member.setEducation(education);
+        member.setHighestEducation(education);
         member.setTeamPosition(teamPosition);
         if (null != memberModify) {
             member.setCreateTime(memberModify.getString("create_time"));
@@ -70,7 +69,7 @@ public class MemberInfoModifyServlet extends HttpServlet {
                 memberModify.put(MemberSchema.Table.Cols.WORK_EXPERIENCE, workExprience);
                 memberModify.put(MemberSchema.Table.Cols.ANNUAL_SALARY, annualSalary);
                 memberModify.put(MemberSchema.Table.Cols.GRADUATED_FROM, graduatedFrom);
-                memberModify.put(MemberSchema.Table.Cols.EDUCATION, education);
+                memberModify.put(MemberSchema.Table.Cols.HIGHEST_EDUCATION, education);
                 memberModify.put(MemberSchema.Table.Cols.TEAM_POSITION, teamPosition);
             }
             result = "1";

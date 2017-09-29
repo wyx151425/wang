@@ -49,9 +49,9 @@ public class MainController {
         return "teamManage";
     }
 
-    @GetMapping(value = "/memberAdd")
+    @GetMapping(value = "/memberInvite")
     public String memberAddPage() {
-        return "memberAdd";
+        return "memberInvite";
     }
 
     @GetMapping(value = "/memberInfo")

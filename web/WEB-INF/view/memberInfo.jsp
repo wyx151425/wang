@@ -59,7 +59,7 @@
                             $("#work-experience").val(member.workExperience);
                             $("#annual-salary").val(member.annualSalary);
                             $("#graduated-from").val(member.graduatedFrom);
-                            $("#education").val(member.education);
+                            $("#education").val(member.highestEducation);
                             $("#team-position").val(member.teamPosition);
                             $("#create-time").val(member.createTime);
                         }

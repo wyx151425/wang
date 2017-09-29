@@ -1,7 +1,7 @@
 package com.rumofuture.wzq.model.dao.impl;
 
 import com.rumofuture.wzq.model.dao.UserDao;
-import com.rumofuture.wzq.model.dao.UserSchema;
+import com.rumofuture.wzq.model.schema.UserSchema;
 import com.rumofuture.wzq.model.domain.User;
 import org.springframework.stereotype.Repository;
 
@@ -60,7 +60,7 @@ public class UserDaoImpl implements UserDao {
                 + UserSchema.Table.Cols.WORK_EXPERIENCE + " = ?, "
                 + UserSchema.Table.Cols.ANNUAL_SALARY + " = ?, "
                 + UserSchema.Table.Cols.GRADUATED_FROM + " = ?, "
-                + UserSchema.Table.Cols.EDUCATION + " = ?, "
+                + UserSchema.Table.Cols.HIGHEST_EDUCATION + " = ?, "
                 + UserSchema.Table.Cols.TEAM_POSITION + " = ? " + "WHERE "
                 + UserSchema.Table.Cols.ID + " = ?";
         PreparedStatement statement = conn.prepareStatement(updateSql);
@@ -69,7 +69,7 @@ public class UserDaoImpl implements UserDao {
         statement.setInt(2, user.getWorkExperience());
         statement.setInt(3, user.getAnnualSalary());
         statement.setString(4, user.getGraduatedFrom());
-        statement.setString(5, user.getEducation());
+        statement.setString(5, user.getHighestEducation());
         statement.setString(6, user.getTeamPosition());
         statement.setInt(7, user.getId());
         return statement.executeUpdate();

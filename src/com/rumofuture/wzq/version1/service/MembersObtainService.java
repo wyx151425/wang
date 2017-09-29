@@ -1,7 +1,7 @@
 package com.rumofuture.wzq.version1.service;
 
 import com.rumofuture.wzq.model.dao.MemberDao;
-import com.rumofuture.wzq.model.dao.MemberSchema;
+import com.rumofuture.wzq.model.schema.MemberSchema;
 import com.rumofuture.wzq.model.domain.Member;
 import com.rumofuture.wzq.model.dao.impl.MemberDaoImpl;
 import com.rumofuture.wzq.version1.util.ConnectionFactory;
@@ -42,8 +42,8 @@ public class MembersObtainService {
                         resultSet.getInt(MemberSchema.Table.Cols.ANNUAL_SALARY));
                 jsonObject.put(MemberSchema.Table.Cols.GRADUATED_FROM,
                         resultSet.getString(MemberSchema.Table.Cols.GRADUATED_FROM));
-                jsonObject.put(MemberSchema.Table.Cols.EDUCATION,
-                        resultSet.getString(MemberSchema.Table.Cols.EDUCATION));
+                jsonObject.put(MemberSchema.Table.Cols.HIGHEST_EDUCATION,
+                        resultSet.getString(MemberSchema.Table.Cols.HIGHEST_EDUCATION));
                 jsonObject.put(MemberSchema.Table.Cols.TEAM_POSITION,
                         resultSet.getString(MemberSchema.Table.Cols.TEAM_POSITION));
                 jsonObject.put(MemberSchema.Table.Cols.CREATE_TIME,

@@ -1,7 +1,7 @@
 package com.rumofuture.wzq.service.impl;
 
 import com.rumofuture.wzq.model.dao.MemberDao;
-import com.rumofuture.wzq.model.dao.MemberSchema;
+import com.rumofuture.wzq.model.schema.MemberSchema;
 import com.rumofuture.wzq.model.domain.Member;
 import com.rumofuture.wzq.service.MemberService;
 import com.rumofuture.wzq.util.ConnectionUtil;
@@ -46,7 +46,7 @@ public class MemberServiceImpl implements MemberService {
                 return member;
             }
         } catch (Exception e) {
-            logger.error(e.getMessage());  // 异常处理
+            e.printStackTrace();  // 异常处理
             try {
                 if (null != connection) {
                     connection.rollback();
@@ -71,7 +71,7 @@ public class MemberServiceImpl implements MemberService {
             connection.commit();
             return row;
         } catch (Exception e) {
-            logger.error(e.getMessage());  // 异常处理
+            e.printStackTrace();  // 异常处理
             try {
                 if (null != connection) {
                     connection.rollback();
@@ -98,7 +98,7 @@ public class MemberServiceImpl implements MemberService {
                 return member;
             }
         } catch (Exception e) {
-            logger.error(e.getMessage());  // 异常处理
+            e.printStackTrace();  // 异常处理
             try {
                 if (null != connection) {
                     connection.rollback();
@@ -129,12 +129,12 @@ public class MemberServiceImpl implements MemberService {
                 member.setWorkExperience(resultSet.getInt(MemberSchema.Table.Cols.WORK_EXPERIENCE));
                 member.setAnnualSalary(resultSet.getInt(MemberSchema.Table.Cols.ANNUAL_SALARY));
                 member.setGraduatedFrom(resultSet.getString(MemberSchema.Table.Cols.GRADUATED_FROM));
-                member.setEducation(resultSet.getString(MemberSchema.Table.Cols.EDUCATION));
+                member.setHighestEducation(resultSet.getString(MemberSchema.Table.Cols.HIGHEST_EDUCATION));
                 member.setTeamPosition(resultSet.getString(MemberSchema.Table.Cols.TEAM_POSITION));
             }
             return member;
         } catch (Exception e) {
-            logger.error(e.getMessage());  // 异常处理
+            e.printStackTrace();  // 异常处理
         }
 
         return null;
@@ -159,7 +159,7 @@ public class MemberServiceImpl implements MemberService {
                 member.setWorkExperience(resultSet.getInt(MemberSchema.Table.Cols.WORK_EXPERIENCE));
                 member.setAnnualSalary(resultSet.getInt(MemberSchema.Table.Cols.ANNUAL_SALARY));
                 member.setGraduatedFrom(resultSet.getString(MemberSchema.Table.Cols.GRADUATED_FROM));
-                member.setEducation(resultSet.getString(MemberSchema.Table.Cols.EDUCATION));
+                member.setHighestEducation(resultSet.getString(MemberSchema.Table.Cols.HIGHEST_EDUCATION));
                 member.setTeamPosition(resultSet.getString(MemberSchema.Table.Cols.TEAM_POSITION));
                 member.setCreateTime(resultSet.getTimestamp(MemberSchema.Table.Cols.CREATE_TIME).toString());
             }
@@ -198,7 +198,7 @@ public class MemberServiceImpl implements MemberService {
                 member.setWorkExperience(resultSet.getInt(MemberSchema.Table.Cols.WORK_EXPERIENCE));
                 member.setAnnualSalary(resultSet.getInt(MemberSchema.Table.Cols.ANNUAL_SALARY));
                 member.setGraduatedFrom(resultSet.getString(MemberSchema.Table.Cols.GRADUATED_FROM));
-                member.setEducation(resultSet.getString(MemberSchema.Table.Cols.EDUCATION));
+                member.setHighestEducation(resultSet.getString(MemberSchema.Table.Cols.HIGHEST_EDUCATION));
                 member.setTeamPosition(resultSet.getString(MemberSchema.Table.Cols.TEAM_POSITION));
                 member.setCreateTime(resultSet.getTimestamp(MemberSchema.Table.Cols.CREATE_TIME).toString());
                 memberList.add(member);

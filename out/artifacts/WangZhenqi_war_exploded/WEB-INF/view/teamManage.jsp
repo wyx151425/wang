@@ -143,7 +143,7 @@
                 </div>
                 <div class="main-right-top">
                     <form action="${pageContext.request.contextPath}/mvc/team" method="get" class="main-right-cotent">
-                        <a href="${pageContext.request.contextPath}/mvc/memberAdd"
+                        <a href="${pageContext.request.contextPath}/mvc/memberInvite"
                            class="save-btn pull-right  btn mt10 bg-blue">
                             新增成员
                         </a>

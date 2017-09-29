@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: WangZhenqi
-  Date: 2016/12/29
-  Time: 19:27
+  Date: 2016/11/30
+  Time: 17:13
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -10,8 +10,10 @@
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta charset="utf-8">
-    <title>新增成员</title>
-    <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/images/favicon.png"/>
+
+    <title>团队管理-新增成员 - 儒墨未来</title>
+    <link rel="shortcut icon" type="image/x-icon"
+          href="${pageContext.request.contextPath}/images/favicon.png"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/global.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap-slider.min.css"/>
@@ -22,8 +24,8 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/zTreeStyle.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap-switch.css"/>
 
-    <script src="${pageContext.request.contextPath}/js/jquery-1.11.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/jquerysession.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquerysession.js"></script>
     <script>
         $(document).ready(function () {
             var userString = $.session.get("current-user");
@@ -31,9 +33,9 @@
                 window.location.href = "${pageContext.request.contextPath}/mvc/login";
             }
             var user = JSON.parse(userString);
-
-            $("#submit-button").click(function () {
-                $.ajax("${pageContext.request.contextPath}/member/save",
+            
+            $("#invite-button").click(function () {
+                $.ajax("${pageContext.request.contextPath}/member/invite",
                     {
                         dataType: "json",
                         type: "post",
@@ -41,27 +43,27 @@
                         data: JSON.stringify(
                             {
                                 name: $("#name").val(),
-                                leader:
-                                    {
-                                        id: user.id,
-                                    },
                                 mobilePhoneNumber: $("#mobile-phone-number").val(),
-                                workExperience: $("#work-experience").val(),
-                                annualSalary: $("#annual-salary").val(),
-                                graduatedFrom: $("#graduated-from").val(),
-                                highestEducation: $("#education").val(),
-                                teamPosition: $("#team-position").val()
+                                teamPosition: $("#team-position").val(),
+                                leader: {
+                                    id: user.id,
+                                    name: user.name
+                                }
                             }
                         ),
                         async: true,
                         success: function (data) {
-                            if (1 === data.status) {
+                            if (1 === data) {
                                 $("#msg-success-div").css("display", "block");
                                 $("#msg-success").text(data.message);
                             } else {
                                 $("#msg-error-div").css("display", "block");
                                 $("#msg-error").text(data.message);
                             }
+                        },
+                        error: function () {
+                            $("#msg-error-div").css("display", "block");
+                            $("#msg-error").text("更新失败");
                         }
                     }
                 );
@@ -123,30 +125,6 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 nopd control-label mt8 col-lg-1">经验(/年)</label>
-                <div class="col-sm-6">
-                    <input type="text" id="work-experience" class="form-control"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 nopd control-label mt8 col-lg-1">年薪(/万)</label>
-                <div class="col-sm-6">
-                    <input type="text" id="annual-salary" class="form-control"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 nopd control-label mt8 col-lg-1">毕业院校</label>
-                <div class="col-sm-6">
-                    <input type="text" id="graduated-from" class="form-control"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 nopd control-label mt8 col-lg-1">最高学历</label>
-                <div class="col-sm-6">
-                    <input type="text" id="education" class="form-control"/>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="col-sm-2 nopd control-label mt8 col-lg-1">团队职务</label>
                 <div class="col-sm-6">
                     <input type="text" id="team-position" class="form-control"/>
@@ -154,7 +132,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-lg-offset-1 col-sm-10 ">
-                    <button id="submit-button" type="button" class="btn bg-blue save-btn">添加</button>
+                    <button id="invite-button" type="button" class="btn bg-blue save-btn">邀请</button>
                 </div>
             </div>
         </form>

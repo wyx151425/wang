@@ -10,14 +10,22 @@ import java.time.LocalDateTime;
 public class User implements Serializable {
 
     private Integer id;
+
     private String name;
     private String mobilePhoneNumber;
     private String password;
+
+    private String email;
+    private String avatarUrl;
+    private String graduatedFrom;
+    private String highestEducation;
+    private String profession;
+    private String teamPosition;
+
+    private Integer age;
     private Integer workExperience;
     private Integer annualSalary;
-    private String graduatedFrom;
-    private String education;
-    private String teamPosition;
+
     private String createTime;
 
     public User() {
@@ -56,6 +64,62 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public String getGraduatedFrom() {
+        return graduatedFrom;
+    }
+
+    public void setGraduatedFrom(String graduatedFrom) {
+        this.graduatedFrom = graduatedFrom;
+    }
+
+    public String getHighestEducation() {
+        return highestEducation;
+    }
+
+    public void setHighestEducation(String highestEducation) {
+        this.highestEducation = highestEducation;
+    }
+
+    public String getProfession() {
+        return profession;
+    }
+
+    public void setProfession(String profession) {
+        this.profession = profession;
+    }
+
+    public String getTeamPosition() {
+        return teamPosition;
+    }
+
+    public void setTeamPosition(String teamPosition) {
+        this.teamPosition = teamPosition;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
     public Integer getWorkExperience() {
         return workExperience;
     }
@@ -70,30 +134,6 @@ public class User implements Serializable {
 
     public void setAnnualSalary(Integer annualSalary) {
         this.annualSalary = annualSalary;
-    }
-
-    public String getGraduatedFrom() {
-        return graduatedFrom;
-    }
-
-    public void setGraduatedFrom(String graduatedFrom) {
-        this.graduatedFrom = graduatedFrom;
-    }
-
-    public String getEducation() {
-        return education;
-    }
-
-    public void setEducation(String education) {
-        this.education = education;
-    }
-
-    public String getTeamPosition() {
-        return teamPosition;
-    }
-
-    public void setTeamPosition(String teamPosition) {
-        this.teamPosition = teamPosition;
     }
 
     public String getCreateTime() {
@@ -111,12 +151,16 @@ public class User implements Serializable {
                 ", name='" + name + '\'' +
                 ", mobilePhoneNumber='" + mobilePhoneNumber + '\'' +
                 ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                ", graduatedFrom='" + graduatedFrom + '\'' +
+                ", highestEducation='" + highestEducation + '\'' +
+                ", profession='" + profession + '\'' +
+                ", teamPosition='" + teamPosition + '\'' +
+                ", age=" + age +
                 ", workExperience=" + workExperience +
                 ", annualSalary=" + annualSalary +
-                ", graduatedFrom='" + graduatedFrom + '\'' +
-                ", education='" + education + '\'' +
-                ", teamPosition='" + teamPosition + '\'' +
-                ", createTime=" + createTime +
+                ", createTime='" + createTime + '\'' +
                 '}';
     }
 }

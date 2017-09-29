@@ -17,7 +17,7 @@ public class Member implements Serializable {
     private Integer workExperience;
     private Integer annualSalary;
     private String graduatedFrom;
-    private String education;
+    private String highestEducation;
     private String teamPosition;
     private String createTime;
 
@@ -89,12 +89,12 @@ public class Member implements Serializable {
         this.graduatedFrom = graduatedFrom;
     }
 
-    public String getEducation() {
-        return education;
+    public String getHighestEducation() {
+        return highestEducation;
     }
 
-    public void setEducation(String education) {
-        this.education = education;
+    public void setHighestEducation(String highestEducation) {
+        this.highestEducation = highestEducation;
     }
 
     public String getTeamPosition() {
@@ -123,7 +123,7 @@ public class Member implements Serializable {
                 ", workExperience=" + workExperience +
                 ", annualSalary=" + annualSalary +
                 ", graduatedFrom='" + graduatedFrom + '\'' +
-                ", education='" + education + '\'' +
+                ", highestEducation='" + highestEducation + '\'' +
                 ", teamPosition='" + teamPosition + '\'' +
                 ", createTime=" + createTime +
                 '}';
