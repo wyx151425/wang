@@ -9,8 +9,8 @@ import java.io.Serializable;
 public class Notification implements Serializable {
 
     private Integer id;
-    private User inviter;
-    private User invitee;
+    private User notifier;
+    private User target;
     private String content;
     private Boolean isChecked;
     private Integer type;
@@ -24,20 +24,20 @@ public class Notification implements Serializable {
         this.id = id;
     }
 
-    public User getInviter() {
-        return inviter;
+    public User getNotifier() {
+        return notifier;
     }
 
-    public void setInviter(User inviter) {
-        this.inviter = inviter;
+    public void setNotifier(User notifier) {
+        this.notifier = notifier;
     }
 
-    public User getInvitee() {
-        return invitee;
+    public User getTarget() {
+        return target;
     }
 
-    public void setInvitee(User invitee) {
-        this.invitee = invitee;
+    public void setTarget(User target) {
+        this.target = target;
     }
 
     public String getContent() {
@@ -76,8 +76,8 @@ public class Notification implements Serializable {
     public String toString() {
         return "Notification{" +
                 "id=" + id +
-                ", inviter=" + inviter +
-                ", invitee=" + invitee +
+                ", notifier=" + notifier +
+                ", target=" + target +
                 ", content='" + content + '\'' +
                 ", isChecked=" + isChecked +
                 ", type=" + type +

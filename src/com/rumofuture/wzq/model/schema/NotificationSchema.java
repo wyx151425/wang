@@ -29,8 +29,8 @@ public class NotificationSchema {
 
         public static final class Cols {
             public static final String ID = "id";
-            public static final String INVITER_ID = "inviter_id";
-            public static final String INVITEE_ID = "invitee_id";
+            public static final String NOTIFIER_ID = "notifier_id";
+            public static final String TARGET_ID = "target_id";
             public static final String CONTENT = "content";
             public static final String IS_CHECKED = "is_checked";
             public static final String TYPE = "type";
