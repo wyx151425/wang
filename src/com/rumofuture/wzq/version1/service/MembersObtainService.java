@@ -4,7 +4,7 @@ import com.rumofuture.wzq.model.dao.MemberDao;
 import com.rumofuture.wzq.model.dao.MemberSchema;
 import com.rumofuture.wzq.model.domain.Member;
 import com.rumofuture.wzq.model.dao.impl.MemberDaoImpl;
-import com.rumofuture.wzq.util.ConnectionFactory;
+import com.rumofuture.wzq.version1.util.ConnectionFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

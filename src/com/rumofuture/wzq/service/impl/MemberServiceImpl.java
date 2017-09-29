@@ -4,7 +4,9 @@ import com.rumofuture.wzq.model.dao.MemberDao;
 import com.rumofuture.wzq.model.dao.MemberSchema;
 import com.rumofuture.wzq.model.domain.Member;
 import com.rumofuture.wzq.service.MemberService;
-import com.rumofuture.wzq.util.ConnectionFactory;
+import com.rumofuture.wzq.util.ConnectionUtil;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,8 @@ import java.util.List;
 @Service("memberService")
 public class MemberServiceImpl implements MemberService {
 
+    private static final Log logger = LogFactory.getLog(MemberServiceImpl.class);
+
     private final MemberDao memberDao;
 
     @Autowired
@@ -32,7 +36,7 @@ public class MemberServiceImpl implements MemberService {
         Connection connection = null;
         try {
             // 通过连接工厂类获得一个数据库连接
-            connection = ConnectionFactory.getInstance().getConnection();
+            connection = ConnectionUtil.getInstance().getConnection();
             connection.setAutoCommit(false);
             // 根据传入的参数查询数据库中是否有对应的用户信息
             int id = memberDao.insertMember(connection, member);
@@ -42,21 +46,13 @@ public class MemberServiceImpl implements MemberService {
                 return member;
             }
         } catch (Exception e) {
-            e.printStackTrace();    // 异常处理
+            logger.error(e.getMessage());  // 异常处理
             try {
                 if (null != connection) {
                     connection.rollback();
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
-            }
-        } finally {
-            try {
-                if (null != connection) {
-                    connection.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
 
@@ -68,28 +64,20 @@ public class MemberServiceImpl implements MemberService {
         Connection connection = null;
         try {
             // 通过连接工厂类获得一个数据库连接
-            connection = ConnectionFactory.getInstance().getConnection();
+            connection = ConnectionUtil.getInstance().getConnection();
             connection.setAutoCommit(false);
             // 根据传入的参数查询数据库中是否有对应的用户信息
             int row = memberDao.deleteMember(connection, id);
             connection.commit();
             return row;
         } catch (Exception e) {
-            e.printStackTrace();  // 异常处理
+            logger.error(e.getMessage());  // 异常处理
             try {
                 if (null != connection) {
                     connection.rollback();
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
-            }
-        } finally {
-            try {
-                if (null != connection) {
-                    connection.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
 
@@ -101,7 +89,7 @@ public class MemberServiceImpl implements MemberService {
         Connection connection = null;
         try {
             // 通过连接工厂类获得一个数据库连接
-            connection = ConnectionFactory.getInstance().getConnection();
+            connection = ConnectionUtil.getInstance().getConnection();
             connection.setAutoCommit(false);
             // 根据传入的参数查询数据库中是否有对应的用户信息
             int row = memberDao.updateMemberInfo(connection, member);
@@ -110,21 +98,13 @@ public class MemberServiceImpl implements MemberService {
                 return member;
             }
         } catch (Exception e) {
-            e.printStackTrace();  // 异常处理
+            logger.error(e.getMessage());  // 异常处理
             try {
                 if (null != connection) {
                     connection.rollback();
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
-            }
-        } finally {
-            try {
-                if (null != connection) {
-                    connection.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
 
@@ -133,10 +113,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member getMemberByMobilePhoneNumber(String mobilePhoneNumber) {
-        Connection connection = null;
         try {
             // 通过连接工厂类获得一个数据库连接
-            connection = ConnectionFactory.getInstance().getConnection();
+            Connection connection = ConnectionUtil.getInstance().getConnection();
             connection.setAutoCommit(false);  // 关闭自动提交
             // 根据传入的参数查询数据库中是否有对应的用户信息
             ResultSet resultSet = memberDao.selectMemberByMobilePhoneNumber(connection, mobilePhoneNumber);
@@ -155,15 +134,7 @@ public class MemberServiceImpl implements MemberService {
             }
             return member;
         } catch (Exception e) {
-            e.printStackTrace();  // 异常处理
-        } finally {
-            try {
-                if (null != connection) {
-                    connection.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            logger.error(e.getMessage());  // 异常处理
         }
 
         return null;
@@ -174,7 +145,7 @@ public class MemberServiceImpl implements MemberService {
         Connection connection = null;
         try {
             // 通过连接工厂类获得一个数据库连接
-            connection = ConnectionFactory.getInstance().getConnection();
+            connection = ConnectionUtil.getInstance().getConnection();
             connection.setAutoCommit(false);  // 关闭自动提交
             // 根据传入的参数查询数据库中是否有对应的用户信息
             ResultSet resultSet = memberDao.selectMemberById(connection, id);
@@ -213,7 +184,7 @@ public class MemberServiceImpl implements MemberService {
         Connection connection = null;
         try {
             // 通过连接工厂类获得一个数据库连接
-            connection = ConnectionFactory.getInstance().getConnection();
+            connection = ConnectionUtil.getInstance().getConnection();
             connection.setAutoCommit(false);  // 关闭自动提交
             // 根据传入的参数查询数据库中是否有对应的用户信息
             ResultSet resultSet = memberDao.selectMemberListByLeader(connection, id);

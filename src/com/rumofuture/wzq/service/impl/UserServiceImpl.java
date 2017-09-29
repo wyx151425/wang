@@ -4,13 +4,14 @@ import com.rumofuture.wzq.model.dao.UserDao;
 import com.rumofuture.wzq.model.dao.UserSchema;
 import com.rumofuture.wzq.model.domain.User;
 import com.rumofuture.wzq.service.UserService;
-import com.rumofuture.wzq.util.ConnectionFactory;
+import com.rumofuture.wzq.util.ConnectionUtil;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.time.LocalDateTime;
 
 /**
  * Created by WangZhenqi on 2017/09/27.
@@ -18,6 +19,8 @@ import java.time.LocalDateTime;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
+
+    private static final Log logger = LogFactory.getLog(UserServiceImpl.class);
 
     private final UserDao userDao;
 
@@ -31,7 +34,7 @@ public class UserServiceImpl implements UserService {
         Connection connection = null;
         try {
             // 通过连接工厂类获得一个数据库连接
-            connection = ConnectionFactory.getInstance().getConnection();
+            connection = ConnectionUtil.getInstance().getConnection();
             connection.setAutoCommit(false);
             // 不要关闭自动提交
             // 根据传入的参数查询数据库中是否有对应的用户信息
@@ -42,21 +45,13 @@ public class UserServiceImpl implements UserService {
                 return user;
             }
         } catch (Exception e) {
-            e.printStackTrace();  // 异常处理
+            logger.error(e.getMessage());  // 异常处理
             try {
                 if (null != connection) {
                     connection.rollback();
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
-            }
-        } finally {
-            try {
-                if (null != connection) {
-                    connection.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
 
@@ -65,10 +60,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User logIn(String mobilePhoneNumber) {
-        Connection connection = null;
         try {
             // 通过连接工厂类获得一个数据库连接
-            connection = ConnectionFactory.getInstance().getConnection();
+            Connection connection = ConnectionUtil.getInstance().getConnection();
             connection.setAutoCommit(false);  // 关闭自动提交
             // 根据传入的参数查询数据库中是否有对应的用户信息
             ResultSet resultSet = userDao.selectUserByMobilePhoneNumber(connection, mobilePhoneNumber);
@@ -88,15 +82,7 @@ public class UserServiceImpl implements UserService {
             }
             return user;
         } catch (Exception e) {
-            e.printStackTrace();    // 异常处理
-        } finally {
-            try {
-                if (null != connection) {
-                    connection.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            logger.error(e.getMessage());    // 异常处理
         }
 
         return null;
@@ -107,7 +93,7 @@ public class UserServiceImpl implements UserService {
         Connection connection = null;
         try {
             // 通过连接工厂类获得一个数据库连接
-            connection = ConnectionFactory.getInstance().getConnection();
+            connection = ConnectionUtil.getInstance().getConnection();
             connection.setAutoCommit(false);
             // 根据传入的参数查询数据库中是否有对应的用户信息
             int row = userDao.updateUserPassword(connection, user);
@@ -116,21 +102,13 @@ public class UserServiceImpl implements UserService {
                 return user;
             }
         } catch (Exception e) {
-            e.printStackTrace();    // 异常处理
+            logger.error(e.getMessage());    // 异常处理
             try {
                 if (null != connection) {
                     connection.rollback();
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
-            }
-        } finally {
-            try {
-                if (null != connection) {
-                    connection.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
 
@@ -142,7 +120,7 @@ public class UserServiceImpl implements UserService {
         Connection connection = null;
         try {
             // 通过连接工厂类获得一个数据库连接
-            connection = ConnectionFactory.getInstance().getConnection();
+            connection = ConnectionUtil.getInstance().getConnection();
             connection.setAutoCommit(false);
             // 根据传入的参数查询数据库中是否有对应的用户信息
             int row = userDao.updateUserInfo(connection, user);
@@ -151,21 +129,13 @@ public class UserServiceImpl implements UserService {
                 return user;
             }
         } catch (Exception e) {
-            e.printStackTrace();  // 异常处理
+            logger.error(e.getMessage());  // 异常处理
             try {
                 if (null != connection) {
                     connection.rollback();
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
-            }
-        } finally {
-            try {
-                if (null != connection) {
-                    connection.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
 
@@ -174,9 +144,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Integer id) {
-        Connection connection = null;
         try {
-            connection = ConnectionFactory.getInstance().getConnection();
+            Connection connection = ConnectionUtil.getInstance().getConnection();
             connection.setAutoCommit(false);
             ResultSet resultSet = userDao.selectUserById(connection, id);
             User user = null;
@@ -195,24 +164,16 @@ public class UserServiceImpl implements UserService {
             }
             return user;
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (null != connection) {
-                    connection.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            logger.error(e.getMessage());
         }
+
         return null;
     }
 
     @Override
     public User getUserByMobilePhoneNumber(String mobilePhoneNumber) {
-        Connection connection = null;
         try {
-            connection = ConnectionFactory.getInstance().getConnection();
+            Connection connection = ConnectionUtil.getInstance().getConnection();
             connection.setAutoCommit(false);
             ResultSet resultSet = userDao.selectUserByMobilePhoneNumber(connection, mobilePhoneNumber);
             if (resultSet.next()) {
@@ -229,16 +190,9 @@ public class UserServiceImpl implements UserService {
                 return user;
             }
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (null != connection) {
-                    connection.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            logger.error(e.getMessage());
         }
+
         return null;
     }
 }

@@ -3,7 +3,7 @@ package com.rumofuture.wzq.version1.service;
 import com.rumofuture.wzq.model.dao.UserDao;
 import com.rumofuture.wzq.model.domain.User;
 import com.rumofuture.wzq.model.dao.impl.UserDaoImpl;
-import com.rumofuture.wzq.util.ConnectionFactory;
+import com.rumofuture.wzq.version1.util.ConnectionFactory;
 
 import java.sql.Connection;
 

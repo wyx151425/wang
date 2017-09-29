@@ -4,7 +4,7 @@ import com.rumofuture.wzq.model.dao.UserDao;
 import com.rumofuture.wzq.model.dao.UserSchema;
 import com.rumofuture.wzq.model.domain.User;
 import com.rumofuture.wzq.model.dao.impl.UserDaoImpl;
-import com.rumofuture.wzq.util.ConnectionFactory;
+import com.rumofuture.wzq.version1.util.ConnectionFactory;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

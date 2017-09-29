@@ -30,7 +30,6 @@ public class MemberController {
 
     @PostMapping(value = "/save")
     public ResponseMember saveMember(@RequestBody Member member) {
-        System.out.println(member);
         if (DataVerificationUtil.isNullObject(member) || DataVerificationUtil.isNullObject(member.getLeader().getId()) ||
                 DataVerificationUtil.isEmptyStringList(member.getName(), member.getMobilePhoneNumber())) {
             return new ResponseMember(false, PromptUtil.DATA_TRANSMISSION_ERROR, null);
