@@ -3,10 +3,13 @@ package com.rumofuture.wang.util;
 import com.rumofuture.wang.model.domain.Notification;
 import com.rumofuture.wang.model.domain.User;
 import com.rumofuture.wang.model.schema.NotificationSchema;
-import com.rumofuture.wang.service.NotificationService;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+/**
+ * Created by WangZhenqi on 2017/09/29.
+ */
 
 public class ObjectMapper {
 
