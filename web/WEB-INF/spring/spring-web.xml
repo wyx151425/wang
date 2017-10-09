@@ -12,8 +12,7 @@
 
     <!-- spring可以自动去扫描base-pack下面的包或者子包下面的java文件，
     	如果扫描到有Spring的相关注解的类，则把这些类注册为Spring的bean -->
-    <context:component-scan base-package="com.rumofuture.wang.controller,
-            com.rumofuture.wang.service, com.rumofuture.wang.model.dao"/>
+    <context:component-scan base-package="com.rumofuture.wang.controller, com.rumofuture.wang.service, com.rumofuture.wang.model.dao"/>
     <!-- 使用默认的Servlet来响应静态文件 -->
     <mvc:default-servlet-handler/>
     <!-- 设置配置方案 -->
