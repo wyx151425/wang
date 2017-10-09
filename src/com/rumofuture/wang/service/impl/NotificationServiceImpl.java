@@ -37,9 +37,7 @@ public class NotificationServiceImpl implements NotificationService {
         } catch (SQLException e) {
             e.printStackTrace();
             try {
-                if (null != connection) {
-                    connection.rollback();
-                }
+                connection.rollback();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
@@ -79,5 +77,17 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public List<Notification> getNotificationByTarget(Integer id) {
         return null;
+    }
+
+    @Override
+    public int getUncheckedNotificationTotal(Integer id) {
+        try {
+            Connection connection = ConnectionUtil.getInstance().getConnection();
+            connection.setAutoCommit(false);
+            return notificationDao.getUncheckedNotificationTotal(connection, id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

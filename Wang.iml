@@ -18,6 +18,7 @@
         </fileset>
         <fileset id="fileset" name="Spring Application Context" removed="false">
           <file>file://$MODULE_DIR$/web/WEB-INF/spring/spring-web.xml</file>
+          <file>file://$MODULE_DIR$/web/WEB-INF/spring/spring-dao.xml</file>
         </fileset>
       </configuration>
     </facet>

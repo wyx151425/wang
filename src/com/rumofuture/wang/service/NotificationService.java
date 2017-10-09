@@ -10,4 +10,5 @@ public interface NotificationService {
     List<Notification> getNotificationList(Integer notifierId, Integer targetId);
     List<Notification> getNotificationList(Integer notifierId, Integer targetId, Integer type);
     List<Notification> getNotificationByTarget(Integer id);
+    int getUncheckedNotificationTotal(Integer id);
 }

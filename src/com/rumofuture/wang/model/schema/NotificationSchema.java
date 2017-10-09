@@ -37,4 +37,14 @@ public class NotificationSchema {
             public static final String CREATE_TIME = "create_time";
         }
     }
+
+    public static final class IsCheckedVal {
+        public static final boolean CHECKED = true;
+        public static final boolean UNCHECKED = false;
+    }
+
+    public static final class TypeVal {
+        public static final int SYSTEM_NOTIFICATION = 1;
+        public static final int TEAM_INVITATION = 2;
+    }
 }

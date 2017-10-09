@@ -86,4 +86,19 @@ public class NotificationDaoImpl implements NotificationDao {
         statement.setInt(1, id);
         return statement.executeQuery();
     }
+
+    @Override
+    public int getUncheckedNotificationTotal(Connection connection, Integer id) throws SQLException {
+        final String TOTAL = "total";
+        String selectSql = "SELECT COUNT(*) AS " + TOTAL + " FROM " + NotificationSchema.Table.NAME + " WHERE " +
+                NotificationSchema.Table.Cols.TARGET_ID + " = ? " + "AND " +
+                NotificationSchema.Table.Cols.IS_CHECKED + " = " + NotificationSchema.IsCheckedVal.UNCHECKED;
+        PreparedStatement statement = connection.prepareStatement(selectSql);
+        statement.setInt(1, id);
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            return resultSet.getInt(TOTAL);
+        }
+        return 0;
+    }
 }

@@ -1,10 +1,15 @@
 package com.rumofuture.wang.util;
 
+import com.alibaba.druid.filter.Filter;
+import com.alibaba.druid.filter.logging.LogFilter;
+import com.alibaba.druid.filter.logging.Slf4jLogFilter;
 import com.alibaba.druid.pool.DruidDataSource;
 
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -29,7 +34,7 @@ public class ConnectionUtil {
 			 * 获取属性文件的内容 获取当前类的类加载器 通过方法读取数据
 			 */
             InputStream in = ConnectionUtil.class.getClassLoader()
-                    .getResourceAsStream("jdbc.properties"); // 读取属性文件中的内容
+                    .getResourceAsStream("jdbc.properties");  // 读取属性文件中的内容
             properties.load(in); // 从输入流中读取键值对列表
 
             // 将值赋值给定义的变量
@@ -53,8 +58,15 @@ public class ConnectionUtil {
             dataSource.setPoolPreparedStatements(Boolean.parseBoolean(properties.getProperty("poolPreparedStatements")));
             dataSource.setDefaultAutoCommit(Boolean.parseBoolean(properties.getProperty("defaultAutoCommit")));
 
-            dataSource.setValidationQuery(properties.getProperty("validationQuery"));
+//            dataSource.setValidationQuery(properties.getProperty("validationQuery"));
             dataSource.setFilters(properties.getProperty("filters"));
+
+            LogFilter logFilter = new Slf4jLogFilter();
+            logFilter.setStatementLogEnabled(true);
+            List<Filter> filterList = new ArrayList<>();
+            filterList.add(logFilter);
+
+            dataSource.setProxyFilters(filterList);
         } catch (Exception e) {
             e.printStackTrace();
         }

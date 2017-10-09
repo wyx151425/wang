@@ -6,6 +6,7 @@ import com.rumofuture.wang.model.domain.User;
 import com.rumofuture.wang.model.dto.Response;
 import com.rumofuture.wang.model.dto.ResponseMember;
 import com.rumofuture.wang.model.dto.ResponseMemberList;
+import com.rumofuture.wang.model.schema.NotificationSchema;
 import com.rumofuture.wang.service.MemberService;
 import com.rumofuture.wang.service.NotificationService;
 import com.rumofuture.wang.service.UserService;
@@ -53,7 +54,8 @@ public class MemberController {
             return new Response(false, PromptUtil.USER_NOT_EXIST);
         }
 
-        List<Notification> notificationList = notificationService.getNotificationList(member.getLeader().getId(), targetUser.getId(), 2);
+        List<Notification> notificationList = notificationService.getNotificationList(
+                member.getLeader().getId(), targetUser.getId(), NotificationSchema.TypeVal.TEAM_INVITATION);
         if (null != notificationList && 0 != notificationList.size()) {
             return new Response(false, PromptUtil.INVITATION_ALREADY_EXIST);
         }
@@ -65,8 +67,8 @@ public class MemberController {
         Notification notification = new Notification();
         notification.setNotifier(member.getLeader());
         notification.setTarget(targetUser);
-        notification.setChecked(false);
-        notification.setType(2);
+        notification.setChecked(NotificationSchema.IsCheckedVal.CHECKED);
+        notification.setType(NotificationSchema.TypeVal.TEAM_INVITATION);
         notification.setContent(notificationContent);
 
         int id = notificationService.saveNotification(notification);
@@ -78,7 +80,7 @@ public class MemberController {
         return new Response(true, PromptUtil.INVITATION_SAVE_SUCCESS);
     }
 
-    @PostMapping(value = "delete")
+    @PostMapping(value = "/delete")
     public ResponseMember deleteMember(@RequestParam("id") Integer id) {
         if (DataVerificationUtil.isNullObject(id)) {
             return new ResponseMember(false, PromptUtil.DATA_TRANSMISSION_ERROR, null);

@@ -12,4 +12,5 @@ public interface NotificationDao {
     ResultSet getNotificationList(Connection connection, Integer notifierId, Integer targetId) throws SQLException;
     ResultSet getNotificationList(Connection connection, Integer notifierId, Integer targetId, Integer type) throws SQLException;
     ResultSet getNotificationByTarget(Connection connection, Integer id) throws SQLException;
+    int getUncheckedNotificationTotal(Connection connection, Integer id) throws SQLException;
 }
