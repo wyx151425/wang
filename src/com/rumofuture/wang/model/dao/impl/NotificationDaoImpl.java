@@ -22,7 +22,9 @@ public class NotificationDaoImpl implements NotificationDao {
                 NotificationSchema.Table.Cols.IS_CHECKED + ", " +
                 NotificationSchema.Table.Cols.TYPE + ") " +
                 "VALUES(?, ?, ?, ?, ?)";
-        PreparedStatement statement = connection.prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
+
+        PreparedStatement statement = connection
+                .prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
 
         statement.setInt(1, notification.getNotifier().getId());
         statement.setInt(2, notification.getTarget().getId());
